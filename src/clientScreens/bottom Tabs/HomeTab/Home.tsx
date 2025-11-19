@@ -25,6 +25,8 @@ import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import Carousel from "react-native-reanimated-carousel";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { ScreenLayout } from "../../../components/layouts/ScreenLayout";
+import { Vspacer } from "../../../components/Vspacer";
 
 interface HomeProps {
   noOfSlides: number;
@@ -204,14 +206,12 @@ export const Home = () => {
     },
   ];
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaView
-        style={[generalStyles.flex1, { backgroundColor: colors.acentGrey50 }]}
+    <ScreenLayout backgroundColor={colors.acentGrey50}>
+      <ScrollView
+        contentContainerStyle={{ paddingBottom: 15 }}
+        showsVerticalScrollIndicator={false}
       >
-        <StatusBar
-          backgroundColor={colors.acentGrey50}
-          barStyle="dark-content"
-        />
+        <Vspacer size={20} />
         <View style={styles.headers}>
           {userData.clientType == "company" && (
             <Header name={userData.companyName} />
@@ -227,11 +227,8 @@ export const Home = () => {
             />
           </View>
         </View>
-        <ScrollView
-          contentContainerStyle={{ paddingBottom: 15 }}
-          showsVerticalScrollIndicator={false}
-        >
-          <View style={{ marginTop: 20 }}>
+
+        {/* <View style={{ marginTop: 20 }}>
             <Carousel
               loop
               width={windowWidth}
@@ -242,85 +239,85 @@ export const Home = () => {
               data={sliderData}
               renderItem={({ item, index }) => item.component}
             />
-          </View>
-          <View style={{ marginTop: 10 }}>
+          </View> */}
+        {/* <View style={{ marginTop: 10 }}>
             <HomeSliderIndicators noOfSlides={2} sliderIndex={sliderIndex} />
-          </View>
-          <View
-            style={{
-              width: windowWidth * 0.9,
-              marginTop: 20,
-              paddingHorizontal: 15,
-            }}
-          >
-            <FindClientArtisan
-              placeholder="Find Artisan"
-              disabled
+          </View> */}
+        <View
+          style={{
+            // width: windowWidth * 0.9,
+            marginTop: 20,
+            paddingHorizontal: 20,
+          }}
+        >
+          <FindClientArtisan
+            placeholder="Find Artisan"
+            disabled
+            onPress={() =>
+              navigation.navigate("SeeAllArtisansCategory", {
+                autoFocus: true,
+              })
+            }
+          />
+        </View>
+        <View style={{ marginTop: 20, paddingHorizontal: 20, gap: 10 }}>
+          <View style={[styles.rowBtwCenter]}>
+            <Text
+              style={[generalStyles.poppins400_fs14, { color: colors.black }]}
+            >
+              Category
+            </Text>
+            <Text
+              style={[
+                generalStyles.poppins400_fs12,
+                { color: colors.primaryRed400 },
+              ]}
               onPress={() =>
                 navigation.navigate("SeeAllArtisansCategory", {
-                  autoFocus: true,
+                  autoFocus: false,
                 })
               }
-            />
+            >
+              See All
+            </Text>
           </View>
-          <View style={{ marginTop: 20, paddingHorizontal: 15, gap: 10 }}>
-            <View style={[styles.rowBtwCenter]}>
-              <Text
-                style={[generalStyles.poppins400_fs14, { color: colors.black }]}
-              >
-                Category
-              </Text>
-              <Text
-                style={[
-                  generalStyles.poppins400_fs12,
-                  { color: colors.primaryRed400 },
-                ]}
-                onPress={() =>
-                  navigation.navigate("SeeAllArtisansCategory", {
-                    autoFocus: false,
-                  })
-                }
-              >
-                See All
-              </Text>
-            </View>
-            <CategoryMappings data={artisanCategories.slice(0, 6)} />
-          </View>
-          <View style={{ marginTop: 20, gap: 10 }}>
-            <View style={[styles.rowBtwCenter, { paddingHorizontal: 15 }]}>
-              <Text
-                style={[generalStyles.poppins400_fs14, { color: colors.black }]}
-              >
-                Featured Artisans
-              </Text>
-              <Text
-                style={[
-                  generalStyles.poppins400_fs12,
-                  { color: colors.primaryRed400 },
-                ]}
-                onPress={() => navigation.navigate("SeeAllFeaturedArtisans")}
-              >
-                See All
-              </Text>
-            </View>
-            <FeaturedArtisans data={FeaturedArtisansData.slice(0, 3)} />
-          </View>
-        </ScrollView>
-        <View style={{ position: "absolute", top: 0, right: 0 }}>
-          <Image source={require("../../../../assets/images/home/4.png")} />
+          <CategoryMappings data={artisanCategories.slice(0, 6)} />
         </View>
-      </SafeAreaView>
-    </GestureHandlerRootView>
+        <Vspacer size={15} />
+        <View style={{ gap: 10 }}>
+          <View style={[styles.rowBtwCenter, { paddingHorizontal: 20 }]}>
+            <Text
+              style={[generalStyles.poppins400_fs14, { color: colors.black }]}
+            >
+              Featured Artisans
+            </Text>
+            <Text
+              style={[
+                generalStyles.poppins400_fs12,
+                { color: colors.primaryRed400 },
+              ]}
+              onPress={() => navigation.navigate("SeeAllFeaturedArtisans")}
+            >
+              See All
+            </Text>
+          </View>
+          <FeaturedArtisans data={FeaturedArtisansData.slice(0, 3)} />
+        </View>
+        <Vspacer />
+      </ScrollView>
+      <View style={{ position: "absolute", top: 0, right: 0 }}>
+        <Image source={require("../../../../assets/images/home/4.png")} />
+      </View>
+    </ScreenLayout>
   );
 };
 
 const styles = StyleSheet.create({
   headers: {
-    marginTop: 20,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 15,
+    paddingHorizontal: 20,
     paddingBottom: 15,
   },
   leftFlex: {

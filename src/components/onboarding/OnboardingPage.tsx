@@ -9,29 +9,31 @@ interface OnboardingProps {
   bodyTxt: string;
   pageNum: number;
   btnTxt: string;
-  pressFunc: any;
+  pressFunc?: any;
+  index: number;
 }
 
 const { width, height } = Dimensions.get("window");
-const index = ({
+export const OnboardingPage = ({
   image,
   headerTxt,
   bodyTxt,
   pageNum,
   btnTxt,
   pressFunc,
+  index,
 }: OnboardingProps) => {
   const Indicators = () => {
     return (
       <View style={[generalStyles.allCenter, { flexDirection: "row", gap: 3 }]}>
-        <View style={pageNum == 1 ? styles.activeCircle : styles.circle}></View>
-        <View style={pageNum == 2 ? styles.activeCircle : styles.circle}></View>
-        <View style={pageNum == 3 ? styles.activeCircle : styles.circle}></View>
+        <View style={index == 0 ? styles.activeCircle : styles.circle}></View>
+        <View style={index == 1 ? styles.activeCircle : styles.circle}></View>
+        <View style={index == 2 ? styles.activeCircle : styles.circle}></View>
       </View>
     );
   };
   return (
-    <View>
+    <View style={{ width: width, flex: 1 }}>
       <View style={[generalStyles.allCenter, { height: height * 0.6 }]}>
         <Image source={image} style={[styles.image]} />
       </View>
@@ -43,21 +45,21 @@ const index = ({
             <Indicators />
           </View>
         </View>
-        <View style={styles.btnCont}>
-          <Btn100
-            text={btnTxt}
-            textCol={"#fff"}
-            bg={colors.primaryRed400}
-            pressFunc={pressFunc}
-            rounded
-          />
-        </View>
+        {index === 2 && (
+          <View style={styles.btnCont}>
+            <Btn100
+              text={btnTxt}
+              textCol={"#fff"}
+              bg={colors.primaryRed400}
+              pressFunc={pressFunc}
+              rounded
+            />
+          </View>
+        )}
       </View>
     </View>
   );
 };
-
-export default index;
 
 const styles = StyleSheet.create({
   image: {

@@ -12,11 +12,18 @@ import Bookings from "../../clientScreens/bottom Tabs/bookings";
 import { Messaging } from "../../clientScreens/bottom Tabs/Messaging";
 import AccountScreens from "../../clientScreens/bottom Tabs/account";
 import HomeScreens from "../../clientScreens/bottom Tabs/HomeTab";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function TabBar({ state, descriptors, navigation }) {
   const { width } = useWindowDimensions();
+  const insets = useSafeAreaInsets();
   return (
-    <View style={[styles.tabsCont, { width: width }]}>
+    <View
+      style={[
+        styles.tabsCont,
+        { width: width, paddingBottom: 15 + insets.bottom },
+      ]}
+    >
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label = route.name;
@@ -108,7 +115,9 @@ const styles = StyleSheet.create({
   tabsCont: {
     flexDirection: "row",
     alignItems: "center",
-    height: 60,
+    // height: 60,
+    paddingTop: 15,
+
     borderTopWidth: 0.5,
     borderColor: colors.acentGrey200,
     backgroundColor: colors.whiteBg,

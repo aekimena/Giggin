@@ -23,12 +23,12 @@ export const FindClientArtisan = ({
       <IonIcons name="search" color={colors.acentGrey300} size={20} />
       <TextInput
         style={[
-          generalStyles.flex1,
           generalStyles.poppins400_fs14,
           {
             height: "100%",
             color: colors.black,
-            paddingTop: 3,
+            // paddingTop: 3,
+            flex: 1,
           },
         ]}
         placeholder={placeholder}
@@ -45,11 +45,11 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     backgroundColor: colors.whiteBg,
-    height: 40,
+    height: 45,
     borderRadius: 10,
     flexDirection: "row",
     alignItems: "center",
-    gap: 10,
+    gap: 5,
     paddingHorizontal: 15,
     borderColor: colors.acentGrey200,
     borderWidth: 0.8,

@@ -1,0 +1,15 @@
+export const dummyUser = {
+  id: "98754",
+  firstName: "Barry",
+  lastName: "Charles",
+  phoneNo: "9087656567",
+  street: "45 Kumasi Street.",
+  town: "45 Kumasi Street.",
+  city: "Kumasi",
+  region: "Kumasi",
+  image: null,
+  password: "78u7788",
+  companyIndustry: "education",
+  companyName: "Ashafs Limited",
+  service: "Braiding of hair for women",
+};

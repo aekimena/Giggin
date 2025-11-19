@@ -7,44 +7,22 @@ import SignUp from "../authScreens/SignUp";
 import PhoneVerification from "../authScreens/PhoneVerification";
 import Congratulations from "../authScreens/Congratulations";
 import ForgotPassword from "../authScreens/forgotPassword";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { colors } from "../utils";
 
-export const AuthRoute = () => {
-  const [loading, setLoading] = useState(true);
-  const [onboardingSeen, setOnboarding] = useState("");
+import { useSelector } from "react-redux";
+import { selectSplashSeen } from "../redux/features/authReducer";
+import { screenNames } from "./routes";
 
-  async function checkOnboarding() {
-    try {
-      const value = await AsyncStorage.getItem("onboarding-seen");
-      setOnboarding(value);
-      setLoading(false);
-    } catch (e) {
-      console.log("error getting value");
-    }
-  }
+const Stack = createNativeStackNavigator();
 
-  useEffect(() => {
-    checkOnboarding();
-  }, []);
-  const Stack = createNativeStackNavigator();
-  if (loading) {
-    return (
-      <View style={{ flex: 1, backgroundColor: colors.acentGrey50 }}>
-        <StatusBar
-          translucent
-          backgroundColor={colors.acentGrey50}
-          barStyle="dark-content"
-        />
-      </View>
-    );
-  }
+const AuthNavigator = () => {
+  const spalshSeen = useSelector(selectSplashSeen);
+
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false, animation: "slide_from_right" }}
     >
-      {onboardingSeen !== "true" && (
-        <Stack.Screen component={Onboarding} name="Onboarding" />
+      {!spalshSeen && (
+        <Stack.Screen component={Onboarding} name={screenNames.onboarding} />
       )}
       <Stack.Screen component={Login} name="Login" />
       <Stack.Screen component={SignUp} name="SignUp" />
@@ -55,5 +33,7 @@ export const AuthRoute = () => {
     </Stack.Navigator>
   );
 };
+
+export default AuthNavigator;
 
 const styles = StyleSheet.create({});

@@ -20,6 +20,8 @@ import { BackBtn } from "../components/auth/BackBtn";
 import { useDispatch } from "react-redux";
 import { updateRegisterData } from "../redux/features/RegistrationData";
 import * as ImagePicker from "expo-image-picker";
+import { ScreenLayout } from "../components/layouts/ScreenLayout";
+import { Vspacer } from "../components/Vspacer";
 
 const SignUp = () => {
   const navigation = useNavigation<any>();
@@ -196,20 +198,15 @@ const SignUp = () => {
   };
 
   return (
-    <SafeAreaView
-      style={[
-        generalStyles.flex1,
-        generalStyles.bgWhite,
-        { paddingHorizontal: 30 },
-      ]}
-    >
-      <StatusBar backgroundColor={"#fff"} barStyle="dark-content" />
-      <View style={[generalStyles.flex1]}>
-        <BackBtn />
+    <ScreenLayout>
+      <View style={[]}>
+        <View style={{ paddingHorizontal: 20, paddingVertical: 15 }}>
+          <BackBtn />
+        </View>
         <ScrollView
           keyboardShouldPersistTaps="always"
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 20 }}
+          contentContainerStyle={{ paddingHorizontal: 20 }}
         >
           <Text
             style={[
@@ -331,9 +328,10 @@ const SignUp = () => {
               companyNameErr={companyNameErr}
             />
           )}
+          <Vspacer size={100} />
         </ScrollView>
       </View>
-    </SafeAreaView>
+    </ScreenLayout>
   );
 };
 

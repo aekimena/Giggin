@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   categoryBox1: {
-    width: width * 0.3 - 10,
+    width: (width - 40) / 3 - 10,
     height: 110,
     backgroundColor: colors.whiteBg,
     borderRadius: 10,

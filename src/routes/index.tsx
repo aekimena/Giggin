@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { AuthRoute } from "./AuthRoute";
-import ClientRoute from "./client";
-import ArtisanRoute from "./artisan";
+import { AuthRoute } from "../navigation/AuthRoute";
+import ClientRoute from "../navigation/client";
+import ArtisanRoute from "../navigation/artisan";
 import { useSelector } from "react-redux";
 import { selectUserData } from "../redux/features/UserData";
 

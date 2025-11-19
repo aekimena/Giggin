@@ -1,33 +1,21 @@
-import {
-  Dimensions,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Dimensions, ScrollView, StyleSheet } from "react-native";
 import React, { useRef, useState } from "react";
 import { colors } from "../utils";
-import Page from "../components/onboarding";
 import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ScreenLayout } from "../components/layouts/ScreenLayout";
+import { OnboardingPage } from "../components/onboarding/OnboardingPage";
+import { useDispatch } from "react-redux";
 
 const { width, height } = Dimensions.get("window");
 const Onboarding = () => {
-  const ScrollRef = useRef<any>();
+  const ScrollRef = useRef<any>(null);
   const navigation = useNavigation<any>();
   const [screenIndex, setScreenIndex] = useState(0);
-  const { flex1, bg, w100 } = styles;
+
+  const dispatch = useDispatch();
 
   async function hideOnboardingScreens() {
-    // hide onboarding forever once seen.
-    try {
-      await AsyncStorage.setItem("onboarding-seen", "true");
-    } catch (e) {
-      console.log("error hiding onboarding");
-    }
-    navigation.replace("Login");
+    dispatch({ type: "SET_SPLASH_SEEN", payload: true });
   }
 
   function scrollToPage(pageNumber: number) {
@@ -42,71 +30,51 @@ const Onboarding = () => {
     setScreenIndex((prev) => prev + 1);
   }
   return (
-    <SafeAreaView style={[flex1, bg]}>
-      <StatusBar
-        backgroundColor={"transparent"}
-        barStyle="light-content"
-        translucent
-      />
+    <ScreenLayout>
       <ScrollView
         ref={ScrollRef}
-        style={[flex1]}
+        style={{}}
         pagingEnabled
         horizontal
         showsHorizontalScrollIndicator={false}
-        scrollEnabled={false}
+        // scrollEnabled={false}
       >
-        <View style={[w100, flex1]}>
-          <Page
-            image={require("../../assets/images/onboarding/1.png")}
-            headerTxt={"Showcase your\nskillset"}
-            bodyTxt={
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil, esse. Quam aperiam fugiat ipsum."
-            }
-            btnTxt={"Next"}
-            pageNum={1}
-            pressFunc={scrollNext}
-          />
-        </View>
-        <View style={[w100, flex1]}>
-          <Page
-            image={require("../../assets/images/onboarding/2.png")}
-            headerTxt={"Hire every type of\nskilled worker"}
-            bodyTxt={
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil, esse. Quam aperiam fugiat ipsum."
-            }
-            btnTxt={"Next"}
-            pageNum={2}
-            pressFunc={scrollNext}
-          />
-        </View>
-        <View style={[w100, flex1]}>
-          <Page
-            image={require("../../assets/images/onboarding/3.png")}
-            headerTxt={"Have a seemless client and artisan experience"}
-            bodyTxt={
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil, esse. Quam aperiam fugiat ipsum."
-            }
-            btnTxt={"Get started"}
-            pageNum={3}
-            pressFunc={hideOnboardingScreens}
-          />
-        </View>
+        <OnboardingPage
+          image={require("../../assets/images/onboarding/1.png")}
+          headerTxt={"Showcase your\nskillset"}
+          bodyTxt={
+            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil, esse. Quam aperiam fugiat ipsum."
+          }
+          btnTxt={"Next"}
+          pageNum={1}
+          index={0}
+        />
+        <OnboardingPage
+          image={require("../../assets/images/onboarding/2.png")}
+          headerTxt={"Hire every type of\nskilled worker"}
+          bodyTxt={
+            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil, esse. Quam aperiam fugiat ipsum."
+          }
+          btnTxt={"Next"}
+          pageNum={1}
+          index={1}
+        />
+        <OnboardingPage
+          image={require("../../assets/images/onboarding/3.png")}
+          headerTxt={"Have a seemless experience"}
+          bodyTxt={
+            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil, esse. Quam aperiam fugiat ipsum."
+          }
+          btnTxt={"Next"}
+          pageNum={1}
+          index={2}
+          pressFunc={hideOnboardingScreens}
+        />
       </ScrollView>
-    </SafeAreaView>
+    </ScreenLayout>
   );
 };
 
 export default Onboarding;
 
-const styles = StyleSheet.create({
-  flex1: {
-    flex: 1,
-  },
-  bg: {
-    backgroundColor: colors.whiteBg,
-  },
-  w100: {
-    width: width,
-  },
-});
+const styles = StyleSheet.create({});
