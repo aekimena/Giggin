@@ -2,10 +2,7 @@ import {
   ActivityIndicator,
   Dimensions,
   Pressable,
-  SafeAreaView,
-  StatusBar,
   StyleSheet,
-  Text,
   View,
 } from "react-native";
 import React, { useEffect, useState } from "react";
@@ -15,6 +12,8 @@ import { FindClientArtisan } from "../components/FindClient&Artisan";
 import { CategoryMappingsFlatList } from "../components/CategoryMappings";
 import { artisanCategories } from "../utils/dummyData";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { ScreenLayout } from "../components/layouts/ScreenLayout";
+import { Vspacer } from "../components/Vspacer";
 const { width } = Dimensions.get("window");
 
 export const SeeAllArtisanCategory = () => {
@@ -37,10 +36,8 @@ export const SeeAllArtisanCategory = () => {
     }, 500);
   }, []);
   return (
-    <SafeAreaView
-      style={[generalStyles.flex1, { backgroundColor: colors.acentGrey50 }]}
-    >
-      <StatusBar barStyle="dark-content" backgroundColor={colors.acentGrey50} />
+    <ScreenLayout>
+      <Vspacer size={20} />
       <View style={styles.headers}>
         <Pressable onPress={() => navigation.goBack()}>
           <IonIcons
@@ -50,7 +47,7 @@ export const SeeAllArtisanCategory = () => {
           />
         </Pressable>
 
-        <View style={{ width: "80%" }}>
+        <View style={{ flex: 1 }}>
           <FindClientArtisan
             placeholder="Find Artisan"
             autoFocus={autoFocus}
@@ -58,6 +55,7 @@ export const SeeAllArtisanCategory = () => {
           />
         </View>
       </View>
+
       {dataLoading ? (
         <View style={[generalStyles.allCenter, generalStyles.flex1]}>
           <ActivityIndicator color={colors.primaryRed400} size={"large"} />
@@ -65,7 +63,7 @@ export const SeeAllArtisanCategory = () => {
       ) : (
         <CategoryMappingsFlatList data={inputTxt == "" ? data : filterData} />
       )}
-    </SafeAreaView>
+    </ScreenLayout>
   );
 };
 
@@ -75,7 +73,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 7,
     marginTop: 15,
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
     paddingBottom: 15,
   },
 });

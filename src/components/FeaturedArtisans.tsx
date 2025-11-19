@@ -11,6 +11,7 @@ import React from "react";
 import { colors, generalStyles } from "../utils";
 import IonIcons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
+import { screenNames } from "../navigation/routes";
 
 interface Props {
   data: Array<ArtisansDataObjProps>;
@@ -29,7 +30,9 @@ export const FeaturedArtisans = ({ data }: Props) => {
         <Pressable
           style={styles.itemCont}
           key={item.id}
-          onPress={() => navigation.navigate("SeeArtisanProfile", { item })}
+          onPress={() =>
+            navigation.navigate(screenNames.SeeArtisanProfile, { item })
+          }
         >
           <Image source={item.image} style={{ width: "100%", height: 110 }} />
           <View style={styles.infoCont}>

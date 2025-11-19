@@ -25,6 +25,9 @@ import {
   addConversation,
   selectClientConvos,
 } from "../../redux/features/client/Messages";
+import { ScreenLayout } from "../../components/layouts/ScreenLayout";
+import { LeftIconTitleHeader } from "../../components/headers/LeftIconTitleHeader";
+import { RenderMessages } from "../../components/messages/RenderMessages";
 
 interface RenderProps {
   item: ClientMessagesProps;
@@ -57,143 +60,67 @@ export const Messaging = () => {
     }, 500);
   }, []);
 
-  const RenderMessages = ({ item }: RenderProps) => {
-    // pleaseee, for the time display to work, the time has to be in milliseconds
-    // since epoch just like i did in the dummy data.
-    const latestMsg = item.messages[item.messages.length - 1];
-    const latestMsgTxt = item.messages[item.messages.length - 1].text;
-    const timestampString = item.messages[item.messages.length - 1].time;
-    const timestamp = parseInt(timestampString);
-    const dateObject = new Date(timestamp);
-    const hour = dateObject.getHours();
-    const minute = dateObject.getMinutes();
-    const latestTimeString = `${hour < 10 ? "0" + hour : hour}:${
-      minute < 10 ? "0" + minute : minute
-    }${hour < 12 ? "am" : "pm"}`;
-    const unreadMessages = item.messages.filter(
-      (msg) => msg.unread == true && msg.sender == "artisan"
-    );
-    return (
-      <Pressable
-        style={({ pressed }) => [
-          styles.box,
-          { backgroundColor: pressed ? "rgba(0,0,0,0.03)" : "#fff" },
-        ]}
-        onPress={() =>
-          navigation.navigate("Chats", {
-            artisan: item.artisan,
-          })
-        }
-      >
-        <View style={[styles.flexRow, { gap: 10, flex: 1 }]}>
-          <Image
-            source={item.artisan.image}
-            style={{ height: 80, width: 80, borderRadius: 40 }}
-          />
-          <View style={{ gap: 10, flex: 1 }}>
-            <Text
-              style={[generalStyles.poppins500_fs16, { color: colors.black }]}
-            >
-              {item.artisan.name}
-            </Text>
-            {latestMsg.type == "text" && (
-              <Text
-                style={[
-                  generalStyles.poppins400_fs14,
-                  { color: colors.acentGrey600 },
-                ]}
-                numberOfLines={1}
-              >
-                {latestMsgTxt}
-              </Text>
-            )}
-            {latestMsg.type == "media" && (
-              <IonIcons name="images" size={15} color={colors.black} />
-            )}
-          </View>
-        </View>
-        <View style={{ gap: 10 }}>
-          <Text
-            style={[
-              generalStyles.poppins400_fs12,
-              { color: colors.acentGrey400 },
-            ]}
-          >
-            {latestTimeString}
-          </Text>
-          {unreadMessages.length > 0 && latestMsg.sender == "artisan" && (
-            <View style={styles.unread}>
-              <Text style={[{ color: "#fff", fontSize: 12 }]}>
-                {unreadMessages.length}
-              </Text>
-            </View>
-          )}
-        </View>
-      </Pressable>
-    );
-  };
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar
-        backgroundColor={colors.acentGrey50}
-        barStyle="dark-content"
-        translucent={false}
-      />
-      <View style={{ marginTop: 20, paddingBottom: 15 }}>
-        <BackIconTitle title={"Messages"} />
-      </View>
-      {dataLoading && (
-        <View style={[generalStyles.flex1, generalStyles.allCenter]}>
-          <ActivityIndicator size={"large"} color={colors.primaryRed400} />
-        </View>
-      )}
-      {!dataLoading && (
-        <>
-          <View style={styles.searchMsgCont}>
-            <View style={{ flex: 1 }}>
-              <TextInput5
-                placeholder="Search Messages"
-                leftIcon="search"
-                onChangeText={setInputTxt}
-              />
-            </View>
-
-            <Pressable>
-              <IonIcons
-                name="filter-outline"
-                size={30}
-                color={colors.primaryRed400}
-              />
-            </Pressable>
+    <ScreenLayout>
+      <View style={{ flex: 1, paddingHorizontal: 20 }}>
+        <LeftIconTitleHeader title={"Messages"} />
+        {dataLoading && (
+          <View style={[generalStyles.flex1, generalStyles.allCenter]}>
+            <ActivityIndicator size={"large"} color={colors.primaryRed400} />
           </View>
-          {data.length == 0 && (
-            <View style={[generalStyles.allCenter, generalStyles.flex1]}>
-              <Text
-                style={[
-                  generalStyles.poppins400_fs12,
-                  { color: colors.acentGrey300, fontSize: 30, lineHeight: 48 },
-                ]}
-              >
-                No Messages
-              </Text>
+        )}
+        {!dataLoading && (
+          <>
+            <View style={styles.searchMsgCont}>
+              <View style={{ flex: 1 }}>
+                <TextInput5
+                  placeholder="Search Messages"
+                  leftIcon="search"
+                  onChangeText={setInputTxt}
+                />
+              </View>
+
+              <Pressable>
+                <IonIcons
+                  name="filter-outline"
+                  size={30}
+                  color={colors.primaryRed400}
+                />
+              </Pressable>
             </View>
-          )}
-          {data.length !== 0 && (
-            <FlatList
-              data={inputTxt == "" ? data : filteredData}
-              showsVerticalScrollIndicator={false}
-              keyExtractor={(item) => item.id}
-              renderItem={(item: any) => <RenderMessages {...item} />}
-              contentContainerStyle={{
-                gap: 15,
-                paddingTop: 10,
-                paddingBottom: 15,
-              }}
-            />
-          )}
-        </>
-      )}
-    </SafeAreaView>
+            {data.length == 0 && (
+              <View style={[generalStyles.allCenter, generalStyles.flex1]}>
+                <Text
+                  style={[
+                    generalStyles.poppins400_fs12,
+                    {
+                      color: colors.acentGrey300,
+                      fontSize: 30,
+                      lineHeight: 48,
+                    },
+                  ]}
+                >
+                  No Messages
+                </Text>
+              </View>
+            )}
+            {data.length !== 0 && (
+              <FlatList
+                data={inputTxt == "" ? data : filteredData}
+                showsVerticalScrollIndicator={false}
+                keyExtractor={(item) => item.id}
+                renderItem={(item: any) => <RenderMessages {...item} />}
+                contentContainerStyle={{
+                  gap: 15,
+                  paddingTop: 10,
+                  paddingBottom: 15,
+                }}
+              />
+            )}
+          </>
+        )}
+      </View>
+    </ScreenLayout>
   );
 };
 

@@ -15,6 +15,9 @@ import IonIcons from "@expo/vector-icons/Ionicons";
 import FontAwesome from "@expo/vector-icons/FontAwesome6";
 import { Btn100 } from "../../components/Btn100";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { ScreenLayout } from "../../components/layouts/ScreenLayout";
+import { LeftIconTitleHeader } from "../../components/headers/LeftIconTitleHeader";
+import { Vspacer } from "../../components/Vspacer";
 
 const PaymenStatusModal = ({ visible }) => {
   return (
@@ -86,107 +89,114 @@ export const MakePayment = () => {
     setFailureModal(true);
   }
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={colors.acentGrey50} barStyle="dark-content" />
-      <View style={{ marginTop: 20, paddingBottom: 15 }}>
-        <BackIconTitle title={"Payment"} />
-      </View>
-      <View style={{ marginTop: 20 }}>
-        <Text
-          style={[
-            generalStyles.poppins400_fs14,
-            { color: colors.black, textAlign: "center" },
-          ]}
-        >
-          Select Payment Method
-        </Text>
-        <View style={{ marginTop: 10, gap: 15 }}>
-          <Pressable style={styles.section} onPress={() => setSelected(0)}>
-            <View style={styles.flexRow}>
-              <FontAwesome
-                name="building-columns"
-                size={20}
-                color={colors.primaryRed400}
-              />
-              <View style={{ gap: 5 }}>
-                <Text
-                  style={[
-                    generalStyles.poppins400_fs16,
-                    { color: colors.black },
-                  ]}
-                >
-                  Mobile Money
-                </Text>
-                <Text
-                  style={[
-                    generalStyles.poppins400_fs12,
-                    { color: colors.acentGrey500 },
-                  ]}
-                >
-                  (Make online payment)
-                </Text>
+    <ScreenLayout>
+      <View style={{ flex: 1, paddingHorizontal: 20 }}>
+        <LeftIconTitleHeader title={"Payment"} />
+        <View style={{ marginTop: 20 }}>
+          <Text
+            style={[
+              generalStyles.poppins400_fs14,
+              { color: colors.black, textAlign: "center" },
+            ]}
+          >
+            Select Payment Method
+          </Text>
+          <Vspacer size={10} />
+          <View style={{ gap: 15 }}>
+            <Pressable style={styles.section} onPress={() => setSelected(0)}>
+              <View style={styles.flexRow}>
+                <FontAwesome
+                  name="building-columns"
+                  size={20}
+                  color={colors.primaryRed400}
+                />
+                <View style={{ gap: 5 }}>
+                  <Text
+                    style={[
+                      generalStyles.poppins400_fs16,
+                      { color: colors.black },
+                    ]}
+                  >
+                    Mobile Money
+                  </Text>
+                  <Text
+                    style={[
+                      generalStyles.poppins400_fs12,
+                      { color: colors.acentGrey500 },
+                    ]}
+                  >
+                    (Make online payment)
+                  </Text>
+                </View>
               </View>
-            </View>
-            <View style={[generalStyles.allCenter, styles.outerCircle]}>
-              {selected == 0 && <View style={styles.innerCircle}></View>}
-            </View>
-          </Pressable>
-          <Pressable style={styles.section} onPress={() => setSelected(1)}>
-            <View style={styles.flexRow}>
-              <IonIcons name="cash" size={25} color={colors.primaryRed400} />
-              <View style={{ gap: 5 }}>
-                <Text
-                  style={[
-                    generalStyles.poppins400_fs16,
-                    { color: colors.black },
-                  ]}
-                >
-                  Cash
-                </Text>
-                <Text
-                  style={[
-                    generalStyles.poppins400_fs12,
-                    { color: colors.acentGrey500 },
-                  ]}
-                >
-                  (Pay professional with cash)
-                </Text>
+              <View style={[generalStyles.allCenter, styles.outerCircle]}>
+                {selected == 0 && <View style={styles.innerCircle}></View>}
               </View>
-            </View>
-            <View style={[generalStyles.allCenter, styles.outerCircle]}>
-              {selected == 1 && <View style={styles.innerCircle}></View>}
-            </View>
-          </Pressable>
+            </Pressable>
+            <Pressable style={styles.section} onPress={() => setSelected(1)}>
+              <View style={styles.flexRow}>
+                <IonIcons name="cash" size={25} color={colors.primaryRed400} />
+                <View style={{ gap: 5 }}>
+                  <Text
+                    style={[
+                      generalStyles.poppins400_fs16,
+                      { color: colors.black },
+                    ]}
+                  >
+                    Cash
+                  </Text>
+                  <Text
+                    style={[
+                      generalStyles.poppins400_fs12,
+                      { color: colors.acentGrey500 },
+                    ]}
+                  >
+                    (Pay professional with cash)
+                  </Text>
+                </View>
+              </View>
+              <View style={[generalStyles.allCenter, styles.outerCircle]}>
+                {selected == 1 && <View style={styles.innerCircle}></View>}
+              </View>
+            </Pressable>
+          </View>
+          <View style={[styles.seperator, { marginTop: 10 }]}></View>
         </View>
-        <View style={[styles.seperator, { marginTop: 10 }]}></View>
-      </View>
-      <View style={[styles.flexRow, { gap: 4, marginTop: 30 }]}>
-        <Text style={[generalStyles.poppins400_fs14, { color: colors.black }]}>
-          Make payment of
-        </Text>
-        <Text
-          style={[
-            generalStyles.poppins500_fs14,
-            { color: colors.primaryRed400 },
-          ]}
-        >
-          1000GH₵
-        </Text>
-      </View>
-      <View style={styles.btnCont}>
-        <Btn100
-          text="Continue"
-          bg={colors.primaryRed400}
-          pressFunc={() => {
-            selected == 0
-              ? onlinePay()
-              : navigation.navigate("ConfirmCashPayment", { data: passedData });
-          }}
+        <View style={[styles.flexRow, { gap: 4, marginTop: 30 }]}>
+          <Text
+            style={[generalStyles.poppins400_fs14, { color: colors.black }]}
+          >
+            Make payment of
+          </Text>
+          <Text
+            style={[
+              generalStyles.poppins500_fs14,
+              { color: colors.primaryRed400 },
+            ]}
+          >
+            1000GH₵
+          </Text>
+        </View>
+        <View style={styles.btnCont}>
+          <Btn100
+            text="Continue"
+            bg={colors.primaryRed400}
+            pressFunc={() => {
+              selected == 0
+                ? onlinePay()
+                : navigation.navigate("ConfirmCashPayment", {
+                    data: passedData,
+                  });
+            }}
+          />
+        </View>
+        <PaymenStatusModal visible={showModal} />
+        <PaymentFailedModal
+          visible={failureModal}
+          setVisible={setFailureModal}
         />
       </View>
-      <PaymenStatusModal visible={showModal} />
-      <PaymentFailedModal visible={failureModal} setVisible={setFailureModal} />
-    </SafeAreaView>
+    </ScreenLayout>
   );
 };
 

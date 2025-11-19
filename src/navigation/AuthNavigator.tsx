@@ -21,9 +21,9 @@ const AuthNavigator = () => {
     <Stack.Navigator
       screenOptions={{ headerShown: false, animation: "slide_from_right" }}
     >
-      {!spalshSeen && (
+      {/* {!spalshSeen && (
         <Stack.Screen component={Onboarding} name={screenNames.onboarding} />
-      )}
+      )} */}
       <Stack.Screen component={Login} name="Login" />
       <Stack.Screen component={SignUp} name="SignUp" />
 

@@ -18,6 +18,8 @@ import { useSelector } from "react-redux";
 import { selectUserData } from "../../../redux/features/UserData";
 import { SliderBtn } from "../../../components/SliderBtn";
 import { LogOutModal } from "../../../components/LogOutModal";
+import { ScreenLayout } from "../../../components/layouts/ScreenLayout";
+import { LeftIconTitleHeader } from "../../../components/headers/LeftIconTitleHeader";
 
 const Option = ({ icon, text, onPress, leftComponent }) => {
   return (
@@ -56,164 +58,176 @@ export const Account = () => {
     // handle notification settings here using the boolean; true or false
   }
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={colors.acentGrey50} barStyle="dark-content" />
-      <View style={{ marginTop: 20, paddingBottom: 15 }}>
-        <BackIconTitle title={"Account"} />
-      </View>
-      <ScrollView
-        contentContainerStyle={{ paddingBottom: 15 }}
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={{ marginTop: 20, alignItems: "center", gap: 12 }}>
-          <View>
-            {data.image == null && (
-              <Image
-                source={require("../../../../assets/images/signUp/2.png")}
-                style={styles.image}
-              />
-            )}
-            {data.image !== null && (
-              <Image source={{ uri: data.image }} style={styles.image} />
-            )}
-          </View>
-          {data.clientType == "individual" && (
-            <Text
-              style={[generalStyles.poppins500_fs16, { color: colors.black }]}
-            >
-              {data.firstName + " " + data.lastName}
-            </Text>
-          )}
-          {data.clientType == "company" && (
-            <Text
-              style={[generalStyles.poppins500_fs16, { color: colors.black }]}
-            >
-              {data.companyName}
-            </Text>
-          )}
-          <Text
-            style={[
-              generalStyles.poppins400_fs14,
-              { color: colors.acentGrey500 },
-            ]}
-          >
-            {data.email}
-          </Text>
-        </View>
-        <View style={{ marginTop: 20, gap: 10 }}>
-          <View style={[styles.section, { gap: 10 }]}>
-            <Option
-              text={"Profile"}
-              icon={<IonIcons name={"person"} color={colors.black} size={17} />}
-              onPress={() => navigation.navigate("Profile")}
-            />
-            <Option
-              text={"Payment history"}
-              icon={
-                <FontAwesome
-                  name={"building-columns"}
-                  color={colors.black}
-                  size={17}
-                />
-              }
-              onPress={() => navigation.navigate("PaymentHistory")}
-            />
-          </View>
-          <View style={[styles.section, { gap: 15 }]}>
-            <Text style={styles.headings}>Settings</Text>
-            <Option
-              text={"Notifications"}
-              icon={
-                <IonIcons
-                  name={"notifications"}
-                  color={colors.black}
-                  size={17}
-                />
-              }
-              leftComponent={
-                <SliderBtn
-                  defaultState={true}
-                  activeBg={colors.primaryRed400}
-                  inActiveBg={colors.acentGrey300}
-                  innerBg="#fff"
-                  onChangeState={handleNotification}
-                />
-              }
-            />
-            <Option
-              text={"Privacy Settings"}
-              icon={<IonIcons name={"shield"} color={colors.black} size={17} />}
-              onPress={() => navigation.navigate("Privacy")}
-            />
-          </View>
-          <View style={[styles.section, { gap: 15 }]}>
-            <Text style={styles.headings}>Verifications</Text>
-            <Option
-              text={"KYC Verification"}
-              icon={
+    <ScreenLayout>
+      <View style={{ flex: 1, paddingHorizontal: 20 }}>
+        <LeftIconTitleHeader title={"Account"} />
+        <ScrollView
+          contentContainerStyle={{ paddingBottom: 15 }}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={{ marginTop: 20, alignItems: "center", gap: 12 }}>
+            <View>
+              {data.image == null && (
                 <Image
-                  source={require("../../../../assets/images/account/1.png")}
-                  style={{
-                    width: 34,
-                    height: 24,
-                    resizeMode: "contain",
-                  }}
+                  source={require("../../../../assets/images/signUp/2.png")}
+                  style={styles.image}
                 />
-              }
-              onPress={() => navigation.navigate("Verification")}
-            />
+              )}
+              {data.image !== null && (
+                <Image source={{ uri: data.image }} style={styles.image} />
+              )}
+            </View>
+            {data.clientType == "individual" && (
+              <Text
+                style={[generalStyles.poppins500_fs16, { color: colors.black }]}
+              >
+                {data.firstName + " " + data.lastName}
+              </Text>
+            )}
+            {data.clientType == "company" && (
+              <Text
+                style={[generalStyles.poppins500_fs16, { color: colors.black }]}
+              >
+                {data.companyName}
+              </Text>
+            )}
+            <Text
+              style={[
+                generalStyles.poppins400_fs14,
+                { color: colors.acentGrey500 },
+              ]}
+            >
+              {data.email}
+            </Text>
           </View>
-          <View style={[styles.section, { gap: 10 }]}>
-            <Text style={styles.headings}>Support</Text>
-            <Option
-              onPress={() =>
-                navigation.navigate("Webview", {
-                  data: { title: "Help Center", uri: "https://google.com" },
-                })
-              }
-              text={"Help Center"}
-              icon={
-                <IonIcons name={"help-circle"} color={colors.black} size={18} />
-              }
-            />
-            <Option
-              onPress={() =>
-                navigation.navigate("Webview", {
-                  data: { title: "Community Rules", uri: "https://google.com" },
-                })
-              }
-              text={"Community Rules"}
-              icon={<IonIcons name={"people"} color={colors.black} size={18} />}
-            />
-            <Option
-              onPress={() =>
-                navigation.navigate("Webview", {
-                  data: { title: "About", uri: "https://google.com" },
-                })
-              }
-              text={"About"}
-              icon={
-                <IonIcons
-                  name={"alert-circle"}
-                  color={colors.black}
-                  size={18}
-                />
-              }
-            />
-            <View style={{ marginTop: 20 }}>
+          <View style={{ marginTop: 20, gap: 10 }}>
+            <View style={[styles.section, { gap: 10 }]}>
               <Option
-                onPress={() => setModal(true)}
-                text={"Log Out"}
+                text={"Profile"}
                 icon={
-                  <IonIcons name={"log-out"} color={colors.black} size={18} />
+                  <IonIcons name={"person"} color={colors.black} size={17} />
                 }
+                onPress={() => navigation.navigate("Profile")}
+              />
+              <Option
+                text={"Payment history"}
+                icon={
+                  <FontAwesome
+                    name={"building-columns"}
+                    color={colors.black}
+                    size={17}
+                  />
+                }
+                onPress={() => navigation.navigate("PaymentHistory")}
               />
             </View>
+            <View style={[styles.section, { gap: 15 }]}>
+              <Text style={styles.headings}>Settings</Text>
+              <Option
+                text={"Notifications"}
+                icon={
+                  <IonIcons
+                    name={"notifications"}
+                    color={colors.black}
+                    size={17}
+                  />
+                }
+                leftComponent={
+                  <SliderBtn
+                    defaultState={true}
+                    activeBg={colors.primaryRed400}
+                    inActiveBg={colors.acentGrey300}
+                    innerBg="#fff"
+                    onChangeState={handleNotification}
+                  />
+                }
+              />
+              <Option
+                text={"Privacy Settings"}
+                icon={
+                  <IonIcons name={"shield"} color={colors.black} size={17} />
+                }
+                onPress={() => navigation.navigate("Privacy")}
+              />
+            </View>
+            <View style={[styles.section, { gap: 15 }]}>
+              <Text style={styles.headings}>Verifications</Text>
+              <Option
+                text={"KYC Verification"}
+                icon={
+                  <Image
+                    source={require("../../../../assets/images/account/1.png")}
+                    style={{
+                      width: 34,
+                      height: 24,
+                      resizeMode: "contain",
+                    }}
+                  />
+                }
+                onPress={() => navigation.navigate("Verification")}
+              />
+            </View>
+            <View style={[styles.section, { gap: 10 }]}>
+              <Text style={styles.headings}>Support</Text>
+              <Option
+                onPress={() =>
+                  navigation.navigate("Webview", {
+                    data: { title: "Help Center", uri: "https://google.com" },
+                  })
+                }
+                text={"Help Center"}
+                icon={
+                  <IonIcons
+                    name={"help-circle"}
+                    color={colors.black}
+                    size={18}
+                  />
+                }
+              />
+              <Option
+                onPress={() =>
+                  navigation.navigate("Webview", {
+                    data: {
+                      title: "Community Rules",
+                      uri: "https://google.com",
+                    },
+                  })
+                }
+                text={"Community Rules"}
+                icon={
+                  <IonIcons name={"people"} color={colors.black} size={18} />
+                }
+              />
+              <Option
+                onPress={() =>
+                  navigation.navigate("Webview", {
+                    data: { title: "About", uri: "https://google.com" },
+                  })
+                }
+                text={"About"}
+                icon={
+                  <IonIcons
+                    name={"alert-circle"}
+                    color={colors.black}
+                    size={18}
+                  />
+                }
+              />
+              <View style={{ marginTop: 20 }}>
+                <Option
+                  onPress={() => setModal(true)}
+                  text={"Log Out"}
+                  icon={
+                    <IonIcons name={"log-out"} color={colors.black} size={18} />
+                  }
+                />
+              </View>
+            </View>
           </View>
-        </View>
-      </ScrollView>
-      <LogOutModal visible={showModal} setVisible={setModal} />
-    </SafeAreaView>
+        </ScrollView>
+        <LogOutModal visible={showModal} setVisible={setModal} />
+      </View>
+    </ScreenLayout>
   );
 };
 

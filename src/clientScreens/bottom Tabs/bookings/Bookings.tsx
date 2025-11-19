@@ -17,6 +17,8 @@ import { BookingsData } from "../../../utils/dummyData";
 import { BookingInfo } from "../../../components/BookingInfo";
 import { TopLeftMenuModal } from "../../../components/TopLeftMenuModal";
 import { useNavigation } from "@react-navigation/native";
+import { ScreenLayout } from "../../../components/layouts/ScreenLayout";
+import { Vspacer } from "../../../components/Vspacer";
 
 interface Props {
   item: BookingsDataProps;
@@ -70,8 +72,8 @@ export const Bookings = () => {
     }
   }
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.acentGrey50 }}>
-      <StatusBar backgroundColor={colors.acentGrey50} barStyle="dark-content" />
+    <ScreenLayout>
+      <Vspacer />
       <View style={styles.headers}>
         <Pressable onPress={() => navigation.goBack()}>
           <IonIcons
@@ -127,7 +129,7 @@ export const Bookings = () => {
         enableSelected
         onSelect={filter}
       />
-    </SafeAreaView>
+    </ScreenLayout>
   );
 };
 
@@ -136,7 +138,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 20,
     paddingBottom: 10,
     paddingHorizontal: 15,
   },

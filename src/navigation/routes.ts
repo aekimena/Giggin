@@ -5,4 +5,7 @@ export const screenNames = {
   register: "Register",
   client: "Client",
   artisan: "Artisan",
+  seeArtisanCategory: "SeeAllArtisansCategory",
+  SeeAllFeaturedArtisans: "SeeAllFeaturedArtisans",
+  SeeArtisanProfile: "SeeArtisanProfile",
 } as const;

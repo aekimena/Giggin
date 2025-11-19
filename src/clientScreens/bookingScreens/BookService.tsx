@@ -1,9 +1,8 @@
 import {
   Dimensions,
+  KeyboardAvoidingView,
   Pressable,
-  SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   TextInput,
@@ -17,7 +16,9 @@ import IonIcons from "@expo/vector-icons/Ionicons";
 import { TextInput5 } from "../../components/TextInput5";
 import { Btn100 } from "../../components/Btn100";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import DatePicker from "react-native-date-picker";
+import { ScreenLayout } from "../../components/layouts/ScreenLayout";
+import { Vspacer } from "../../components/Vspacer";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 // here's what's happening: these is data for time selection. if the current hour is
 // greater than the time, the button will be disabled.
@@ -40,17 +41,16 @@ const { width } = Dimensions.get("window");
 export const BookService = () => {
   const navigation = useNavigation<any>();
   const route = useRoute<any>();
-  const theme = useColorScheme();
   const { artisanData } = route.params;
   const [selectedTime, setSelectedTime] = useState(null);
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(new Date(Date.now()));
+  const [mode, setMode] = useState("date");
+  const [show, setShow] = useState(false);
   const [address, setAddress] = useState(null);
   const [description, setDescription] = useState("");
   const [dateErr, setDateErr] = useState(false);
   const [timeErr, setTimeErr] = useState(false);
   const [addressErr, setAddressErr] = useState(false);
-  const [datePicker, setDatePicker] = useState(new Date());
-  const [datePickerOpen, setDatePickerOpen] = useState(false);
   const dateString = `${date?.getDate()} ${
     month_2[date?.getMonth()]
   }, ${date?.getFullYear()}`;
@@ -90,6 +90,21 @@ export const BookService = () => {
     });
   }
 
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow(false);
+    setDate(currentDate);
+  };
+
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode("date");
+  };
+
   function getLocation() {
     // get user's current location using geocoding api here.
   }
@@ -106,149 +121,154 @@ export const BookService = () => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.acentGrey50 }}>
-      <StatusBar backgroundColor={colors.acentGrey50} barStyle="dark-content" />
-      <View style={{ marginTop: 15, paddingHorizontal: 15, paddingBottom: 10 }}>
+    <ScreenLayout>
+      <Vspacer />
+      <View style={{ paddingHorizontal: 15, paddingBottom: 10 }}>
         <BackIconTitle title={"Book Service"} />
       </View>
-      <ScrollView style={{ marginBottom: 20 }}>
-        <View style={styles.stepsCont}>
-          <View style={{ alignItems: "center" }}>
-            <IonIcons name="ellipse" color={colors.primaryRed400} size={27} />
-            <Text
-              style={[generalStyles.poppins400_fs12, { color: colors.black }]}
-            >
-              Step 1
-            </Text>
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior={"height"}>
+        <ScrollView
+          style={{ marginBottom: 20 }}
+          keyboardShouldPersistTaps="always"
+        >
+          <View style={styles.stepsCont}>
+            <View style={{ alignItems: "center" }}>
+              <IonIcons name="ellipse" color={colors.primaryRed400} size={27} />
+              <Text
+                style={[generalStyles.poppins400_fs12, { color: colors.black }]}
+              >
+                Step 1
+              </Text>
+            </View>
+            <View style={styles.dash}></View>
+            <View style={{ alignItems: "center" }}>
+              <IonIcons name="ellipse" color={colors.primaryRed200} size={27} />
+              <Text
+                style={[generalStyles.poppins400_fs12, { color: colors.black }]}
+              >
+                Step 2
+              </Text>
+            </View>
           </View>
-          <View style={styles.dash}></View>
-          <View style={{ alignItems: "center" }}>
-            <IonIcons name="ellipse" color={colors.primaryRed200} size={27} />
-            <Text
-              style={[generalStyles.poppins400_fs12, { color: colors.black }]}
-            >
-              Step 2
-            </Text>
-          </View>
-        </View>
-        <View style={{ marginTop: 30, paddingHorizontal: 17, gap: 7 }}>
-          <Text
-            style={[
-              generalStyles.poppins400_fs14,
-              { color: colors.acentGrey600 },
-            ]}
-          >
-            Select Date
-          </Text>
-          <Pressable
-            onPress={() => setDatePickerOpen(true)}
-            style={[
-              styles.enterDate,
-              {
-                borderColor: dateErr
-                  ? colors.primaryRed400
-                  : colors.acentGrey200,
-              },
-            ]}
-          >
-            <IonIcons
-              name="calendar-outline"
-              size={17}
-              color={colors.acentGrey500}
-            />
+          <View style={{ marginTop: 30, paddingHorizontal: 17, gap: 7 }}>
             <Text
               style={[
-                generalStyles.poppins400_fs12,
+                generalStyles.poppins400_fs14,
+                { color: colors.acentGrey600 },
+              ]}
+            >
+              Select Date
+            </Text>
+            <Pressable
+              onPress={() => showDatepicker()}
+              style={[
+                styles.enterDate,
                 {
-                  color: date == null ? colors.acentGrey300 : colors.black,
-                  lineHeight: 16,
+                  borderColor: dateErr
+                    ? colors.primaryRed400
+                    : colors.acentGrey200,
                 },
               ]}
             >
-              {date == null ? "Enter Date" : dateString}
-            </Text>
-          </Pressable>
-        </View>
-        <View style={{ marginTop: 20, paddingHorizontal: 15 }}>
-          <Text
-            style={[generalStyles.poppins500_fs16, { color: colors.black }]}
-          >
-            Working Time
-          </Text>
-          <View style={styles.timesCont}>
-            {timeData.map((item, index) => (
-              <Pressable
-                onPress={() => {
-                  selectedTime == item.time
-                    ? setSelectedTime(null)
-                    : setSelectedTime(item.time);
-                }}
-                disabled={isDateInValid(item.hour) || date == null}
+              <IonIcons
+                name="calendar-outline"
+                size={17}
+                color={colors.acentGrey500}
+              />
+              <Text
                 style={[
-                  generalStyles.allCenter,
-                  styles.timeBox,
+                  generalStyles.poppins400_fs12,
                   {
-                    backgroundColor:
-                      selectedTime == item.time && !isDateInValid(item.hour)
-                        ? colors.primaryRed400
-                        : "transparent",
-                    borderColor: timeErr
-                      ? colors.primaryRed400
-                      : colors.acentGrey200,
+                    color: date == null ? colors.acentGrey300 : colors.black,
+                    lineHeight: 16,
                   },
                 ]}
-                key={index}
               >
-                <Text
+                {date == null ? "Enter Date" : dateString}
+              </Text>
+            </Pressable>
+          </View>
+          <View style={{ marginTop: 20, paddingHorizontal: 15 }}>
+            <Text
+              style={[generalStyles.poppins500_fs16, { color: colors.black }]}
+            >
+              Working Time
+            </Text>
+            <View style={styles.timesCont}>
+              {timeData.map((item, index) => (
+                <Pressable
+                  onPress={() => {
+                    selectedTime == item.time
+                      ? setSelectedTime(null)
+                      : setSelectedTime(item.time);
+                  }}
+                  disabled={isDateInValid(item.hour) || date == null}
                   style={[
-                    generalStyles.poppins400_fs14,
+                    generalStyles.allCenter,
+                    styles.timeBox,
                     {
-                      color:
+                      backgroundColor:
                         selectedTime == item.time && !isDateInValid(item.hour)
-                          ? "#fff"
-                          : colors.secondaryBlue300,
+                          ? colors.primaryRed400
+                          : "transparent",
+                      borderColor: timeErr
+                        ? colors.primaryRed400
+                        : colors.acentGrey200,
                     },
                   ]}
+                  key={index}
                 >
-                  {item.time}
-                </Text>
-              </Pressable>
-            ))}
+                  <Text
+                    style={[
+                      generalStyles.poppins400_fs14,
+                      {
+                        color:
+                          selectedTime == item.time && !isDateInValid(item.hour)
+                            ? "#fff"
+                            : colors.secondaryBlue300,
+                      },
+                    ]}
+                  >
+                    {item.time}
+                  </Text>
+                </Pressable>
+              ))}
+            </View>
           </View>
-        </View>
-        <View style={{ marginTop: 30, paddingHorizontal: 15, gap: 7 }}>
-          <TextInput5
-            placeholder="Enter Your Address"
-            leftIcon="location"
-            onChangeText={setAddress}
-            textInputContstyle={{
-              borderColor: addressErr
-                ? colors.primaryRed400
-                : colors.acentGrey200,
-            }}
-          />
-          <Text
-            style={[
-              generalStyles.poppins500_fs12,
-              { color: colors.primaryRed400, alignSelf: "flex-end" },
-            ]}
-            onPress={getLocation}
+          <View style={{ marginTop: 30, paddingHorizontal: 15, gap: 7 }}>
+            <TextInput5
+              placeholder="Enter Your Address"
+              leftIcon="location"
+              onChangeText={setAddress}
+              textInputContstyle={{
+                borderColor: addressErr
+                  ? colors.primaryRed400
+                  : colors.acentGrey200,
+              }}
+            />
+            <Text
+              style={[
+                generalStyles.poppins500_fs12,
+                { color: colors.primaryRed400, alignSelf: "flex-end" },
+              ]}
+              onPress={getLocation}
+            >
+              Use Current Location
+            </Text>
+          </View>
+          <View
+            style={{ paddingHorizontal: 15, marginTop: 20, marginBottom: 30 }}
           >
-            Use Current Location
-          </Text>
-        </View>
-        <View
-          style={{ paddingHorizontal: 15, marginTop: 20, marginBottom: 30 }}
-        >
-          <TextInput
-            style={[generalStyles.poppins400_fs12, styles.textInput]}
-            placeholder="Kindly Describe the task properly"
-            placeholderTextColor={colors.acentGrey300}
-            multiline
-            onChangeText={setDescription}
-          />
-        </View>
-      </ScrollView>
+            <TextInput
+              style={[generalStyles.poppins500_fs14, styles.textInput]}
+              placeholder="Kindly Describe the task properly"
+              placeholderTextColor={colors.acentGrey300}
+              multiline
+              onChangeText={setDescription}
+            />
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
       <View
         style={{
           paddingHorizontal: 15,
@@ -259,24 +279,17 @@ export const BookService = () => {
       >
         <Btn100 text="Proceed" bg={colors.primaryRed400} pressFunc={proceed} />
       </View>
-      <DatePicker
-        modal
-        open={datePickerOpen}
-        date={datePicker}
-        onConfirm={(date) => {
-          setDatePickerOpen(false);
-          setDate(date);
-          setSelectedTime(null);
-        }}
-        onCancel={() => {
-          setDatePickerOpen(false);
-        }}
-        mode="date"
-        textColor={theme == "dark" ? colors.whiteBg : colors.black}
-        minimumDate={datePicker}
-        confirmText="Set Date"
-      />
-    </SafeAreaView>
+
+      {show && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={date}
+          mode={mode}
+          is24Hour={true}
+          onChange={onChange}
+        />
+      )}
+    </ScreenLayout>
   );
 };
 
@@ -318,7 +331,7 @@ const styles = StyleSheet.create({
     borderColor: colors.acentGrey200,
     padding: 15,
     textAlignVertical: "top",
-    color: colors.black,
+    color: colors.acentGrey600,
   },
   enterDate: {
     height: 40,

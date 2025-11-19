@@ -24,6 +24,8 @@ import { FeaturedArtisansData } from "../../../utils/dummyData";
 import { Btn100 } from "../../../components/Btn100";
 import { RenderArtisans } from "../../../components/RenderArtisans";
 import { BackIconTitle } from "../../../components/BackIconTitle";
+import { ScreenLayout } from "../../../components/layouts/ScreenLayout";
+import { LeftIconTitleHeader } from "../../../components/headers/LeftIconTitleHeader";
 export const SeeAllFeaturedArtisans = () => {
   const navigation = useNavigation<any>();
   const [data, setData] = useState<Array<ArtisansDataObjProps>>([]);
@@ -38,12 +40,9 @@ export const SeeAllFeaturedArtisans = () => {
     }, 500);
   }, []);
   return (
-    <SafeAreaView
-      style={[generalStyles.flex1, { backgroundColor: colors.acentGrey50 }]}
-    >
-      <StatusBar barStyle="dark-content" backgroundColor={colors.acentGrey50} />
-      <View style={styles.headers}>
-        <BackIconTitle title={"Featured Artisans"} />
+    <ScreenLayout>
+      <View style={{ paddingHorizontal: 20 }}>
+        <LeftIconTitleHeader title={"Featured Artisans"} />
       </View>
 
       {dataLoading ? (
@@ -59,14 +58,14 @@ export const SeeAllFeaturedArtisans = () => {
           contentContainerStyle={{ gap: 15, paddingVertical: 15 }}
         />
       )}
-    </SafeAreaView>
+    </ScreenLayout>
   );
 };
 
 const styles = StyleSheet.create({
   headers: {
     gap: 5,
-    marginTop: 20,
+
     paddingHorizontal: 15,
     paddingBottom: 15,
   },

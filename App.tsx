@@ -11,6 +11,7 @@ import RootNavigator from "./src/navigation/RootNavigator";
 import { SafeAreaView } from "react-native-safe-area-context";
 import store from "./src/redux/store/configureStore";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -39,14 +40,16 @@ export default function App() {
   }
   return (
     <Provider store={store}>
-      {/* <AppContextProvider> */}
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <NavigationContainer onReady={() => SplashScreen.hideAsync()}>
-          {/* <Routes /> */}
-          <RootNavigator />
-        </NavigationContainer>
-      </GestureHandlerRootView>
-      {/* </AppContextProvider> */}
+      <AppContextProvider>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <BottomSheetModalProvider>
+            <NavigationContainer onReady={() => SplashScreen.hideAsync()}>
+              {/* <Routes /> */}
+              <RootNavigator />
+            </NavigationContainer>
+          </BottomSheetModalProvider>
+        </GestureHandlerRootView>
+      </AppContextProvider>
     </Provider>
   );
 }

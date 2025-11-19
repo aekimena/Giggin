@@ -2,6 +2,7 @@ import { StyleSheet, Text, TextInput, View, ViewStyle } from "react-native";
 import React from "react";
 import { colors, generalStyles } from "../utils";
 import IonIcons from "@expo/vector-icons/Ionicons";
+import { globalStyles } from "../constants/styles";
 
 interface Props {
   placeholder: string;
@@ -21,12 +22,14 @@ export const TextInput5 = ({
       <IonIcons name={leftIcon} size={17} color={colors.acentGrey400} />
       <TextInput
         style={[
-          generalStyles.poppins400_fs12,
+          generalStyles.poppins500_fs14,
           {
             flex: 1,
             height: "100%",
-            color: colors.black,
+            color: colors.acentGrey600,
+
             paddingTop: 2, // without this, the text and the icon dont align
+            // backgroundColor: "red",
           },
         ]}
         placeholder={placeholder}
@@ -39,9 +42,10 @@ export const TextInput5 = ({
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    alignItems: "center",
-    height: 40,
+    // flexDirection: "row",
+    // alignItems: "center",
+    ...globalStyles.flexRow,
+    height: 45,
     width: "100%",
     backgroundColor: colors.whiteBg,
     borderRadius: 5,

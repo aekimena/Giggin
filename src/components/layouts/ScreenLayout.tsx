@@ -19,7 +19,7 @@ export const ScreenLayout = ({
     <View
       style={{
         flex: 1,
-        backgroundColor: backgroundColor || colors.background,
+        backgroundColor: backgroundColor || colors.acentGrey50,
       }}
     >
       <StatusBar

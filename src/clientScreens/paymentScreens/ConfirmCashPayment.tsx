@@ -16,6 +16,8 @@ import { Btn100 } from "../../components/Btn100";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
 import { AddImageModal } from "../../components/AddImageModal";
+import { ScreenLayout } from "../../components/layouts/ScreenLayout";
+import { LeftIconTitleHeader } from "../../components/headers/LeftIconTitleHeader";
 
 const ConfirmModal = ({ visible, setVisible }) => {
   const navigation = useNavigation<any>();
@@ -97,85 +99,88 @@ export const ConfirmCashPayment = () => {
     }
   };
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={colors.acentGrey50} barStyle="dark-content" />
-      <View style={{ marginTop: 20, paddingBottom: 15 }}>
-        <BackIconTitle title={"Cash"} />
-      </View>
-      {image == null && (
-        <>
-          <Pressable
-            style={[generalStyles.allCenter, styles.selectFileBox]}
-            onPress={pickImage}
-          >
-            <View style={{ alignItems: "center", gap: 3, marginVertical: 30 }}>
-              <Image source={require("../../../assets/images/payment/1.png")} />
-              <Text
-                style={[
-                  generalStyles.poppins400_fs14,
-                  { color: colors.acentGrey800 },
-                ]}
-              >
-                Select File
-              </Text>
-            </View>
-          </Pressable>
-          <View style={[styles.flexRow, { marginTop: 20 }]}>
-            <View style={styles.seperator}></View>
-            <Text
-              style={[generalStyles.poppins400_fs16, { color: colors.black }]}
+    <ScreenLayout>
+      <View style={{ flex: 1, paddingHorizontal: 20 }}>
+        <LeftIconTitleHeader title={"Cash"} />
+        {image == null && (
+          <>
+            <Pressable
+              style={[generalStyles.allCenter, styles.selectFileBox]}
+              onPress={pickImage}
             >
-              or
-            </Text>
-            <View style={styles.seperator}></View>
-          </View>
-          <Pressable
-            onPress={openCamera}
-            style={[
-              styles.flexRow,
-              { justifyContent: "center", marginTop: 50 },
-            ]}
-          >
-            <IonIcons name="camera" color={colors.primaryRed400} size={20} />
-            <Text
+              <View
+                style={{ alignItems: "center", gap: 3, marginVertical: 30 }}
+              >
+                <Image
+                  source={require("../../../assets/images/payment/1.png")}
+                />
+                <Text
+                  style={[
+                    generalStyles.poppins400_fs14,
+                    { color: colors.acentGrey800 },
+                  ]}
+                >
+                  Select File
+                </Text>
+              </View>
+            </Pressable>
+            <View style={[styles.flexRow, { marginTop: 20 }]}>
+              <View style={styles.seperator}></View>
+              <Text
+                style={[generalStyles.poppins400_fs16, { color: colors.black }]}
+              >
+                or
+              </Text>
+              <View style={styles.seperator}></View>
+            </View>
+            <Pressable
+              onPress={openCamera}
               style={[
-                generalStyles.poppins500_fs14,
-                { color: colors.primaryRed400 },
+                styles.flexRow,
+                { justifyContent: "center", marginTop: 50 },
               ]}
             >
-              Open camera and take photo
-            </Text>
-          </Pressable>
-        </>
-      )}
-      {image !== null && (
-        <View style={{ flex: 1, justifyContent: "center" }}>
-          <Pressable
-            style={{ width: "100%" }}
-            onPress={() => setAddImageModal(true)}
-          >
-            <Image
-              source={{ uri: image }}
-              style={{ height: 200, width: "100%", resizeMode: "contain" }}
-            />
-          </Pressable>
+              <IonIcons name="camera" color={colors.primaryRed400} size={20} />
+              <Text
+                style={[
+                  generalStyles.poppins500_fs14,
+                  { color: colors.primaryRed400 },
+                ]}
+              >
+                Open camera and take photo
+              </Text>
+            </Pressable>
+          </>
+        )}
+        {image !== null && (
+          <View style={{ flex: 1, justifyContent: "center" }}>
+            <Pressable
+              style={{ width: "100%" }}
+              onPress={() => setAddImageModal(true)}
+            >
+              <Image
+                source={{ uri: image }}
+                style={{ height: 200, width: "100%", resizeMode: "contain" }}
+              />
+            </Pressable>
+          </View>
+        )}
+        <View style={styles.btnCont}>
+          <Btn100
+            text="Confirm payment"
+            bg={colors.primaryRed400}
+            pressFunc={() => setModal(true)}
+          />
         </View>
-      )}
-      <View style={styles.btnCont}>
-        <Btn100
-          text="Confirm payment"
-          bg={colors.primaryRed400}
-          pressFunc={() => setModal(true)}
+        <ConfirmModal visible={showModal} setVisible={setModal} />
+        <AddImageModal
+          visible={showAddImageModal}
+          setVisible={setAddImageModal}
+          onSelect={setImage}
+          onDelete={() => setImage(null)}
         />
       </View>
-      <ConfirmModal visible={showModal} setVisible={setModal} />
-      <AddImageModal
-        visible={showAddImageModal}
-        setVisible={setAddImageModal}
-        onSelect={setImage}
-        onDelete={() => setImage(null)}
-      />
-    </SafeAreaView>
+    </ScreenLayout>
   );
 };
 

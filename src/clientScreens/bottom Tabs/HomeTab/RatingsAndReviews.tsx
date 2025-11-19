@@ -1,69 +1,11 @@
-import {
-  ActivityIndicator,
-  FlatList,
-  Image,
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { ActivityIndicator, FlatList, StyleSheet, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { BackIconTitle } from "../../../components/BackIconTitle";
 import { colors, generalStyles } from "../../../utils";
 import { artisanRatings } from "../../../utils/dummyData";
-import IonIcons from "@expo/vector-icons/Ionicons";
-
-interface RenderProps {
-  item: ArtisanRatingsProps;
-}
-
-const RenderReviews = ({ item }: RenderProps) => {
-  return (
-    <View style={styles.box}>
-      <View style={{ flexDirection: "row", gap: 15, flex: 1 }}>
-        <Image
-          source={item.image}
-          style={{ height: 80, width: 80, borderRadius: 10 }}
-        />
-        <View style={{ gap: 10, flex: 1 }}>
-          <Text
-            style={[
-              generalStyles.poppins500_fs16,
-              { color: colors.secondaryBlue200 },
-            ]}
-          >
-            {item.firstName + " " + item.lastName}
-          </Text>
-          <Text
-            style={[
-              generalStyles.poppins400_fs14,
-              { color: colors.acentGrey500 },
-            ]}
-          >
-            {item.review}
-          </Text>
-        </View>
-      </View>
-      <View style={{ flexDirection: "row", alignItems: "center", gap: 2 }}>
-        <IonIcons
-          name="star"
-          color={colors.primaryRed400}
-          size={10}
-          style={{ marginBottom: 3 }}
-        />
-        <Text
-          style={[
-            generalStyles.poppins400_fs14,
-            { color: colors.primaryRed400 },
-          ]}
-        >
-          {item.rating.toFixed(1)}
-        </Text>
-      </View>
-    </View>
-  );
-};
+import { ScreenLayout } from "../../../components/layouts/ScreenLayout";
+import { Vspacer } from "../../../components/Vspacer";
+import { RenderReviews } from "../../../components/artisanProfile/RenderReviews";
 
 export const RatingsAndReviews = () => {
   const [data, setData] = useState<Array<ArtisanRatingsProps>>([]);
@@ -77,9 +19,9 @@ export const RatingsAndReviews = () => {
     setDataLoading(false);
   }, []);
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={colors.acentGrey50} barStyle="dark-content" />
-      <View style={{ marginTop: 20, paddingBottom: 15 }}>
+    <ScreenLayout>
+      <Vspacer size={20} />
+      <View style={{ paddingHorizontal: 20, paddingBottom: 15 }}>
         <BackIconTitle title={"Ratings and Reviews"} />
       </View>
       {dataLoading && (
@@ -96,7 +38,7 @@ export const RatingsAndReviews = () => {
           renderItem={({ item }) => <RenderReviews item={item} />}
         />
       )}
-    </SafeAreaView>
+    </ScreenLayout>
   );
 };
 

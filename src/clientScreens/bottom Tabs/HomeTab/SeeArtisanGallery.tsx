@@ -12,6 +12,8 @@ import React from "react";
 import { BackIconTitle } from "../../../components/BackIconTitle";
 import { colors } from "../../../utils";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { ScreenLayout } from "../../../components/layouts/ScreenLayout";
+import { Vspacer } from "../../../components/Vspacer";
 
 const RenderImage = () => <View></View>;
 
@@ -20,9 +22,9 @@ export const SeeArtisanGallery = () => {
   const route = useRoute<any>();
   const passedData: ArtisansDataObjProps = route.params.artisanData;
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={colors.acentGrey50} barStyle="dark-content" />
-      <View style={{ marginTop: 20, paddingBottom: 15 }}>
+    <ScreenLayout>
+      <Vspacer />
+      <View style={{ paddingHorizontal: 20, paddingBottom: 15 }}>
         <BackIconTitle title={"Gallery"} />
       </View>
       <FlatList
@@ -30,12 +32,7 @@ export const SeeArtisanGallery = () => {
         data={passedData.gallery}
         renderItem={({ item, index }) => (
           <Pressable
-            onPress={() =>
-              navigation.navigate("PhotoInView", {
-                artisanData: passedData,
-                index,
-              })
-            }
+            onPress={() => {}}
             key={index}
             style={{
               flex: 1,
@@ -49,10 +46,10 @@ export const SeeArtisanGallery = () => {
             />
           </Pressable>
         )}
-        contentContainerStyle={{ gap: 15 }}
+        contentContainerStyle={{ gap: 15, paddingHorizontal: 20 }}
         style={{ marginTop: 10 }}
       />
-    </SafeAreaView>
+    </ScreenLayout>
   );
 };
 

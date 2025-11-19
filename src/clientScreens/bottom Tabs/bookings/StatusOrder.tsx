@@ -13,6 +13,8 @@ import { BackIconTitle } from "../../../components/BackIconTitle";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { BookingInfo } from "../../../components/BookingInfo";
 import { Btn100 } from "../../../components/Btn100";
+import { ScreenLayout } from "../../../components/layouts/ScreenLayout";
+import { Vspacer } from "../../../components/Vspacer";
 
 const ProgressView = ({ title, time, completed, isLastIndex }) => {
   return (
@@ -54,66 +56,62 @@ export const StatusOrder = () => {
   const route = useRoute<any>();
   const passedData: BookingsDataProps = route.params.passedData;
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: colors.acentGrey50,
-        paddingHorizontal: 15,
-      }}
-    >
-      <StatusBar backgroundColor={colors.acentGrey50} barStyle="dark-content" />
-      <View style={{ marginTop: 20, paddingBottom: 15 }}>
-        <BackIconTitle title={"Status Order"} />
+    <ScreenLayout>
+      <View style={{ flex: 1, paddingHorizontal: 15 }}>
+        <Vspacer />
+        <View style={{ paddingBottom: 15 }}>
+          <BackIconTitle title={"Status Order"} />
+        </View>
+        <ScrollView
+          contentContainerStyle={{ paddingBottom: 40 }}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={{ marginTop: 10 }}>
+            <BookingInfo
+              image={passedData.image}
+              service={passedData.service}
+              clientProduct={passedData.clientProduct}
+              dateTime={passedData.dateTime}
+              address={passedData.address}
+              provider={passedData.provider}
+              status={passedData.status}
+            />
+          </View>
+          <View style={[styles.section, { marginTop: 20, gap: 10 }]}>
+            <ProgressView
+              title={"Booking Accepted"}
+              time={"30:00pm"}
+              completed={true}
+            />
+            <ProgressView
+              title={"Job Completed"}
+              time={"30:00pm"}
+              completed={false}
+            />
+            <ProgressView
+              title={"Booking Cancelled By Artisan"}
+              time={"30:00pm"}
+              completed={false}
+            />
+            <ProgressView
+              title={"Payment Made"}
+              time={"30:00pm"}
+              completed={false}
+              isLastIndex={true}
+            />
+          </View>
+        </ScrollView>
+        {passedData.status == "Pending" && (
+          <View style={styles.btnCont}>
+            <Btn100
+              text="Check Out"
+              bg={colors.primaryRed400}
+              pressFunc={() => navigation.navigate("WorkDone", { passedData })}
+            />
+          </View>
+        )}
       </View>
-      <ScrollView
-        contentContainerStyle={{ paddingBottom: 40 }}
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={{ marginTop: 10 }}>
-          <BookingInfo
-            image={passedData.image}
-            service={passedData.service}
-            clientProduct={passedData.clientProduct}
-            dateTime={passedData.dateTime}
-            address={passedData.address}
-            provider={passedData.provider}
-            status={passedData.status}
-          />
-        </View>
-        <View style={[styles.section, { marginTop: 20, gap: 10 }]}>
-          <ProgressView
-            title={"Booking Accepted"}
-            time={"30:00pm"}
-            completed={true}
-          />
-          <ProgressView
-            title={"Job Completed"}
-            time={"30:00pm"}
-            completed={false}
-          />
-          <ProgressView
-            title={"Booking Cancelled By Artisan"}
-            time={"30:00pm"}
-            completed={false}
-          />
-          <ProgressView
-            title={"Payment Made"}
-            time={"30:00pm"}
-            completed={false}
-            isLastIndex={true}
-          />
-        </View>
-      </ScrollView>
-      {passedData.status == "Pending" && (
-        <View style={styles.btnCont}>
-          <Btn100
-            text="Check Out"
-            bg={colors.primaryRed400}
-            pressFunc={() => navigation.navigate("WorkDone", { passedData })}
-          />
-        </View>
-      )}
-    </SafeAreaView>
+    </ScreenLayout>
   );
 };
 

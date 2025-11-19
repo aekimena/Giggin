@@ -9,6 +9,7 @@ import { ReportArtisan } from "./ReportArtisan";
 import { RatingsAndReviews } from "./RatingsAndReviews";
 import { SeeArtisanServices } from "./SeeArtisanServices";
 import { SeeArtisanGallery } from "./SeeArtisanGallery";
+import { screenNames } from "../../../navigation/routes";
 
 const HomeScreens = () => {
   const Stack = createNativeStackNavigator();
@@ -19,10 +20,13 @@ const HomeScreens = () => {
       <Stack.Screen component={Home} name="Home" />
       <Stack.Screen
         component={SeeAllFeaturedArtisans}
-        name="SeeAllFeaturedArtisans"
+        name={screenNames.SeeAllFeaturedArtisans}
       />
       <Stack.Screen component={SeeArtisanCategory} name="SeeArtisanCategory" />
-      <Stack.Screen component={SeeArtisanProfile} name="SeeArtisanProfile" />
+      <Stack.Screen
+        component={SeeArtisanProfile}
+        name={screenNames.SeeArtisanProfile}
+      />
       <Stack.Screen component={ReportArtisan} name="ReportArtisan" />
       <Stack.Screen component={RatingsAndReviews} name="RatingsAndReviews" />
       <Stack.Screen component={SeeArtisanServices} name="SeeArtisanServices" />

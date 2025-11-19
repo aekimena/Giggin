@@ -24,7 +24,7 @@ const Index = () => {
       screenOptions={{ headerShown: false, animation: "slide_from_right" }}
     >
       <Stack.Screen component={Account} name="AccountScreen" />
-      <Stack.Screen component={PaymentHistory} name="PaymentHistory" />
+      {/* <Stack.Screen component={PaymentHistory} name="PaymentHistory" />
       <Stack.Screen component={Receipt} name="Receipt" />
       <Stack.Screen component={Profile} name="Profile" />
       <Stack.Screen component={Privacy} name="Privacy" />
@@ -42,7 +42,7 @@ const Index = () => {
           <Stack.Screen component={CVerify4} name="Verification4" />
         </>
       )}
-      <Stack.Screen component={SupportWebview} name="Webview" />
+      <Stack.Screen component={SupportWebview} name="Webview" /> */}
     </Stack.Navigator>
   );
 };

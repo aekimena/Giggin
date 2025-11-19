@@ -11,18 +11,20 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { colors, generalStyles } from "../../../utils";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import IonIcons from "@expo/vector-icons/Ionicons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { FeaturedArtisansData } from "../../../utils/dummyData";
-import { Btn100 } from "../../../components/Btn100";
 import { RenderArtisans } from "../../../components/RenderArtisans";
-import { FeesBottomSheet } from "../../../components/bottomSheets/FeesBottomSheet";
 import { AppContext } from "../../../context/AppContext";
-import { RegionBottomSheet } from "../../../components/bottomSheets/RegionBottomSheet";
-import { CityBottomSheet } from "../../../components/bottomSheets/CityBottomSheet";
+import { ScreenLayout } from "../../../components/layouts/ScreenLayout";
+import { Vspacer } from "../../../components/Vspacer";
+import { ArtisanFeeSheet } from "../../../sheetModals/ArtisanFeeSheet";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { ArtisanRegionBottomSheet } from "../../../sheetModals/ArtisanRegionBottomSheet";
+import { ArtisanCitySheet } from "../../../sheetModals/ArtisanCitySheet";
 
 interface CategoryObj {
   id: string;
@@ -53,6 +55,12 @@ export const SeeArtisanCategory = () => {
   const category: CategoryObj = route.params.item;
   const [data, setData] = useState<Array<ArtisansDataObjProps>>([]);
 
+  // refs
+
+  const artisanFeeSheetRef = useRef<BottomSheetModal>(null);
+  const artisanRegionSheetRef = useRef<BottomSheetModal>(null);
+  const artisanCitySheetRef = useRef<BottomSheetModal>(null);
+
   const filterData: Array<ArtisansDataObjProps> = data.filter(
     (item) =>
       item.price >= parseInt(minFee) &&
@@ -68,12 +76,6 @@ export const SeeArtisanCategory = () => {
   const filterMode = feeFiltered || regionFiltered || cityFiltered; // checks if any filter state is active
 
   const [dataLoading, setDataLoading] = useState(true);
-  // bottom sheet refs
-  const { ArtisanFeesRef, ArtisanCityRef, ArtisanRegionRef } =
-    useContext(AppContext);
-
-  // check if bottom sheet is active to change the status bar color
-  const [BsActive, setBsActive] = useState(false);
 
   useEffect(() => {
     // get the data here using the passed category data and save it in useState
@@ -93,13 +95,8 @@ export const SeeArtisanCategory = () => {
     }
   }, [feeFiltered]);
   return (
-    <SafeAreaView
-      style={[generalStyles.flex1, { backgroundColor: colors.acentGrey50 }]}
-    >
-      <StatusBar
-        barStyle="dark-content"
-        backgroundColor={BsActive ? "rgba(0,0,0,0.3)" : colors.acentGrey50}
-      />
+    <ScreenLayout>
+      <Vspacer />
       <View style={styles.headers}>
         <Pressable onPress={() => navigation.goBack()}>
           <IonIcons
@@ -116,14 +113,17 @@ export const SeeArtisanCategory = () => {
         </View>
       </View>
       <View style={styles.filterBtnsCont}>
-        <FilterBtn text={"Fee"} onPress={() => ArtisanFeesRef.current.open()} />
+        <FilterBtn
+          text={"Fee"}
+          onPress={() => artisanFeeSheetRef.current?.present()}
+        />
         <FilterBtn
           text={"Region"}
-          onPress={() => ArtisanRegionRef.current.open()}
+          onPress={() => artisanRegionSheetRef.current?.present()}
         />
         <FilterBtn
           text={"City"}
-          onPress={() => ArtisanCityRef.current.open()}
+          onPress={() => artisanCitySheetRef.current?.present()}
         />
       </View>
       {dataLoading ? (
@@ -138,30 +138,33 @@ export const SeeArtisanCategory = () => {
           style={{ marginTop: 20, paddingHorizontal: 15 }}
         />
       )}
-      <FeesBottomSheet
-        onOpen={() => setBsActive(true)}
-        onClose={() => setBsActive(false)}
+
+      <ArtisanFeeSheet
+        ref={artisanFeeSheetRef}
+        onClose={() => artisanFeeSheetRef.current?.dismiss()}
         setMaxFee={setMaxFee}
         setMinFee={setMinFee}
         setFeeFiltered={setFeeFiltered}
         maxFee={maxFee}
         minFee={minFee}
       />
-      <RegionBottomSheet
-        onOpen={() => setBsActive(true)}
-        onClose={() => setBsActive(false)}
+
+      <ArtisanRegionBottomSheet
+        ref={artisanRegionSheetRef}
+        onClose={() => artisanRegionSheetRef.current?.dismiss()}
         setFiltered={setRegionFiltered}
         setRegion={setSelectedRegion}
         region={selectedRegion}
       />
-      <CityBottomSheet
-        onOpen={() => setBsActive(true)}
-        onClose={() => setBsActive(false)}
+
+      <ArtisanCitySheet
+        ref={artisanCitySheetRef}
+        onClose={() => artisanCitySheetRef.current?.dismiss()}
         setFiltered={setCityFiltered}
-        setCity={setSelectedCity}
-        city={selectedCity}
+        setRegion={setSelectedCity}
+        region={selectedCity}
       />
-    </SafeAreaView>
+    </ScreenLayout>
   );
 };
 
@@ -170,7 +173,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop: 20,
     paddingHorizontal: 15,
     paddingBottom: 15,
   },

@@ -200,9 +200,11 @@ const SignUp = () => {
   return (
     <ScreenLayout>
       <View style={[]}>
-        <View style={{ paddingHorizontal: 20, paddingVertical: 15 }}>
+        <Vspacer />
+        <View style={{ paddingHorizontal: 20 }}>
           <BackBtn />
         </View>
+
         <ScrollView
           keyboardShouldPersistTaps="always"
           showsVerticalScrollIndicator={false}

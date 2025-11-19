@@ -7,6 +7,7 @@ import BookingScreens from "../../clientScreens/bookingScreens";
 import PaymentScreens from "../../clientScreens/paymentScreens";
 import { PhotoInView } from "../../clientScreens/PhotoInView";
 import { Chats } from "../../clientScreens/Chats";
+import { screenNames } from "../routes";
 
 const ClientRoute = () => {
   const Stack = createNativeStackNavigator();
@@ -17,7 +18,7 @@ const ClientRoute = () => {
       <Stack.Screen component={BottomTabs} name="BottomTabs" />
       <Stack.Screen
         component={SeeAllArtisanCategory}
-        name="SeeAllArtisansCategory"
+        name={screenNames.seeArtisanCategory}
       />
 
       <Stack.Screen component={BookingScreens} name="BookingScreens" />

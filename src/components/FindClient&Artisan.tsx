@@ -19,7 +19,7 @@ export const FindClientArtisan = ({
   onChangeText,
 }: Props) => {
   return (
-    <Pressable style={styles.container} onPress={onPress}>
+    <View style={styles.container}>
       <IonIcons name="search" color={colors.acentGrey300} size={20} />
       <TextInput
         style={[
@@ -37,7 +37,7 @@ export const FindClientArtisan = ({
         autoFocus={autoFocus || false}
         onChangeText={onChangeText}
       />
-    </Pressable>
+    </View>
   );
 };
 

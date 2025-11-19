@@ -1,13 +1,4 @@
-import {
-  Image,
-  Modal,
-  Pressable,
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Image, Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { colors, generalStyles, month_2 } from "../../../utils";
 import { BackIconTitle } from "../../../components/BackIconTitle";
@@ -15,101 +6,9 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { Btn100 } from "../../../components/Btn100";
 import IonIcons from "@expo/vector-icons/Ionicons";
 import { AddImageModal } from "../../../components/AddImageModal";
-
-const ConfirmJobModal = ({
-  visible,
-  setVisible,
-  setOtherVisible,
-  setReviewSent,
-}) => {
-  const [checked, setChecked] = useState(false);
-  function showSuccessModal() {
-    setOtherVisible(true);
-    setVisible(false);
-    setReviewSent(true);
-  }
-  return (
-    <Modal
-      transparent
-      statusBarTranslucent
-      visible={visible}
-      animationType="slide"
-    >
-      <View style={[styles.modalCont]}>
-        <View
-          style={[
-            styles.section,
-            styles.modalBox,
-            { paddingTop: 0, backgroundColor: colors.acentGrey50 },
-          ]}
-        >
-          <Image
-            source={require("../../../../assets/images/artisanBookings/2.png")}
-            style={{ alignSelf: "center", top: -0.57 }}
-          />
-          <View style={styles.modalHeaderTxtCont}>
-            <Text
-              style={[
-                generalStyles.poppins500_fs16,
-                { color: colors.acentGrey800 },
-              ]}
-            >
-              Confirm This Job is done?
-            </Text>
-            <View style={{ width: "80%" }}>
-              <Text
-                style={[
-                  generalStyles.poppins400_fs14,
-                  { color: colors.black, textAlign: "center" },
-                ]}
-              >
-                Do you want to confirm that this job is done?
-              </Text>
-            </View>
-          </View>
-          <View style={[styles.modalTerms]}>
-            <Pressable onPress={() => setChecked(!checked)}>
-              <IonIcons
-                name={checked ? "checkbox" : "square"}
-                color={colors.primaryRed400}
-                size={20}
-              />
-            </Pressable>
-            <View style={{ width: "80%" }}>
-              <Text
-                style={[
-                  generalStyles.poppins400_fs12,
-                  { color: colors.acentGrey800, lineHeight: 16 },
-                ]}
-              >
-                Using our platforms implies you agree to our terms and
-                conditions
-              </Text>
-            </View>
-          </View>
-          <View style={[styles.flexRowBtw, { marginTop: 50, gap: 15 }]}>
-            <View style={{ flex: 1 }}>
-              <Btn100
-                text="Cancel"
-                textCol={colors.primaryRed400}
-                pressFunc={() => setVisible(false)}
-                outlined
-              />
-            </View>
-            <View style={{ flex: 1 }}>
-              <Btn100
-                text="Confirm"
-                bg={colors.primaryRed400}
-                pressFunc={showSuccessModal}
-                disabled={checked == false}
-              />
-            </View>
-          </View>
-        </View>
-      </View>
-    </Modal>
-  );
-};
+import { ScreenLayout } from "../../../components/layouts/ScreenLayout";
+import { LeftIconTitleHeader } from "../../../components/headers/LeftIconTitleHeader";
+import { ConfirmModal } from "../../../modals/ConfirmModal";
 
 const ReviewSentModal = ({ visible, setVisible, successful }) => {
   const navigation = useNavigation<any>();
@@ -185,111 +84,119 @@ export const WorkDone = () => {
     }
   }, [showReviewModal, reviewSent]);
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={colors.acentGrey50} barStyle="dark-content" />
-      <View style={{ marginTop: 20, paddingBottom: 15 }}>
-        <BackIconTitle title={"Work Done"} />
-      </View>
-      <View style={{ marginTop: 20, alignItems: "center", gap: 10 }}>
-        <Text style={[generalStyles.poppins400_fs14, { color: colors.black }]}>
-          Upload a picture of the work done
-        </Text>
-        {image == null && (
-          <Pressable
-            onPress={() => setAddImageModal(true)}
-            style={[styles.section, generalStyles.allCenter, { height: 200 }]}
+    <ScreenLayout>
+      <View style={{ flex: 1, paddingHorizontal: 15 }}>
+        <LeftIconTitleHeader title={"Work Done"} />
+        <View style={{ marginTop: 20, alignItems: "center", gap: 10 }}>
+          <Text
+            style={[generalStyles.poppins400_fs14, { color: colors.black }]}
           >
-            <View>
+            Upload a picture of the work done
+          </Text>
+          {image == null && (
+            <Pressable
+              onPress={() => setAddImageModal(true)}
+              style={[styles.section, generalStyles.allCenter, { height: 200 }]}
+            >
+              <View>
+                <Image
+                  source={require("../../../../assets/images/artisanBookings/7.png")}
+                  style={styles.placeholderImage}
+                />
+              </View>
+            </Pressable>
+          )}
+          {image !== null && (
+            <Pressable
+              style={{ width: "100%" }}
+              onPress={() => setAddImageModal(true)}
+            >
               <Image
-                source={require("../../../../assets/images/artisanBookings/7.png")}
-                style={styles.placeholderImage}
+                source={{ uri: image }}
+                style={{
+                  height: 200,
+                  width: "100%",
+                  resizeMode: "contain",
+                }}
               />
-            </View>
-          </Pressable>
-        )}
-        {image !== null && (
-          <Pressable
-            style={{ width: "100%" }}
-            onPress={() => setAddImageModal(true)}
-          >
-            <Image
-              source={{ uri: image }}
-              style={{
-                height: 200,
-                width: "100%",
-                resizeMode: "contain",
-              }}
-            />
-          </Pressable>
-        )}
-      </View>
-      <View style={{ gap: 15, marginTop: 30 }}>
-        <View style={styles.flexRowBtw}>
-          <Text style={[styles.innerLeftTxt, generalStyles.poppins400_fs12]}>
-            Date Completed
-          </Text>
-          <Text style={[styles.innerRightTxt, generalStyles.poppins400_fs12]}>
-            {dateString}
-          </Text>
+            </Pressable>
+          )}
         </View>
-        <View style={styles.flexRowBtw}>
-          <Text style={[styles.innerLeftTxt, generalStyles.poppins400_fs12]}>
-            Time Completed
-          </Text>
-          <Text style={[styles.innerRightTxt, generalStyles.poppins400_fs12]}>
-            {timeString}
-          </Text>
+        <View style={{ gap: 15, marginTop: 30 }}>
+          <View style={styles.flexRowBtw}>
+            <Text style={[styles.innerLeftTxt, generalStyles.poppins400_fs12]}>
+              Date Completed
+            </Text>
+            <Text style={[styles.innerRightTxt, generalStyles.poppins400_fs12]}>
+              {dateString}
+            </Text>
+          </View>
+          <View style={styles.flexRowBtw}>
+            <Text style={[styles.innerLeftTxt, generalStyles.poppins400_fs12]}>
+              Time Completed
+            </Text>
+            <Text style={[styles.innerRightTxt, generalStyles.poppins400_fs12]}>
+              {timeString}
+            </Text>
+          </View>
+          <View style={styles.flexRowBtw}>
+            <Text style={[styles.innerLeftTxt, generalStyles.poppins400_fs12]}>
+              Artisan
+            </Text>
+            <Text style={[styles.innerRightTxt, generalStyles.poppins400_fs12]}>
+              {passedData.provider.name}
+            </Text>
+          </View>
+          <View style={styles.flexRowBtw}>
+            <Text style={[styles.innerLeftTxt, generalStyles.poppins400_fs12]}>
+              Address
+            </Text>
+            <Text style={[styles.innerRightTxt, generalStyles.poppins400_fs12]}>
+              {passedData.address}
+            </Text>
+          </View>
+          <View style={styles.flexRowBtw}>
+            <Text style={[styles.innerLeftTxt, generalStyles.poppins400_fs12]}>
+              Price
+            </Text>
+            <Text style={[styles.innerRightTxt, generalStyles.poppins400_fs16]}>
+              500GH₵
+            </Text>
+          </View>
         </View>
-        <View style={styles.flexRowBtw}>
-          <Text style={[styles.innerLeftTxt, generalStyles.poppins400_fs12]}>
-            Artisan
-          </Text>
-          <Text style={[styles.innerRightTxt, generalStyles.poppins400_fs12]}>
-            {passedData.provider.name}
-          </Text>
+        <View style={styles.btnCont}>
+          <Btn100
+            text="Confirm Work"
+            bg={colors.primaryRed400}
+            pressFunc={() => setConfirmModal(true)}
+          />
         </View>
-        <View style={styles.flexRowBtw}>
-          <Text style={[styles.innerLeftTxt, generalStyles.poppins400_fs12]}>
-            Address
-          </Text>
-          <Text style={[styles.innerRightTxt, generalStyles.poppins400_fs12]}>
-            {passedData.address}
-          </Text>
-        </View>
-        <View style={styles.flexRowBtw}>
-          <Text style={[styles.innerLeftTxt, generalStyles.poppins400_fs12]}>
-            Price
-          </Text>
-          <Text style={[styles.innerRightTxt, generalStyles.poppins400_fs16]}>
-            500GH₵
-          </Text>
-        </View>
-      </View>
-      <View style={styles.btnCont}>
-        <Btn100
-          text="Confirm Work"
-          bg={colors.primaryRed400}
-          pressFunc={() => setConfirmModal(true)}
+        <AddImageModal
+          setVisible={setAddImageModal}
+          visible={showAddImageModal}
+          onSelect={setImage}
+          onDelete={setImage}
+        />
+        <ConfirmModal
+          visible={showConfirmModal}
+          setVisible={setConfirmModal}
+          setOtherVisible={setReviewModal}
+          setReviewSent={setReviewSent}
+          onPressConfirm={() => {
+            setReviewModal(true);
+            setConfirmModal(false);
+            setReviewSent(true);
+          }}
+          title="Confirm This Job is done?"
+          subtitle="Do you want to confirm that this job is done?"
+        />
+        <ReviewSentModal
+          visible={showReviewModal}
+          setVisible={setReviewModal}
+          successful={reviewSent}
         />
       </View>
-      <AddImageModal
-        setVisible={setAddImageModal}
-        visible={showAddImageModal}
-        onSelect={setImage}
-        onDelete={setImage}
-      />
-      <ConfirmJobModal
-        visible={showConfirmModal}
-        setVisible={setConfirmModal}
-        setOtherVisible={setReviewModal}
-        setReviewSent={setReviewSent}
-      />
-      <ReviewSentModal
-        visible={showReviewModal}
-        setVisible={setReviewModal}
-        successful={reviewSent}
-      />
-    </SafeAreaView>
+    </ScreenLayout>
   );
 };
 
@@ -327,7 +234,7 @@ const styles = StyleSheet.create({
   placeholderImage: {
     height: 90,
     width: 90,
-    borderWidth: 1,
+    // borderWidth: 1,
     resizeMode: "contain",
   },
 

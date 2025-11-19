@@ -15,6 +15,8 @@ import IonIcons from "@expo/vector-icons/Ionicons";
 import { Btn100 } from "../../../components/Btn100";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
+import { ScreenLayout } from "../../../components/layouts/ScreenLayout";
+import { Vspacer } from "../../../components/Vspacer";
 
 const ModalView = ({ visible }) => {
   return (
@@ -111,8 +113,8 @@ export const ReportArtisan = () => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.acentGrey50 }}>
-      <StatusBar barStyle="dark-content" backgroundColor={colors.acentGrey50} />
+    <ScreenLayout>
+      <Vspacer />
       <View style={styles.headers}>
         <IonIcons name="chevron-back" color={colors.black} size={20} />
         <Text style={[generalStyles.poppins500_fs16, { color: colors.black }]}>
@@ -206,7 +208,7 @@ export const ReportArtisan = () => {
       </View>
       <ModalView visible={successModal} />
       <FailureModalView visible={failureModal} />
-    </SafeAreaView>
+    </ScreenLayout>
   );
 };
 
@@ -215,7 +217,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 20,
+    // marginTop: 20,
     paddingBottom: 10,
     paddingHorizontal: 15,
   },

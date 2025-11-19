@@ -14,6 +14,8 @@ import { BackIconTitle } from "../../components/BackIconTitle";
 import StarRating from "react-native-star-rating-widget";
 import { Btn100 } from "../../components/Btn100";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { ScreenLayout } from "../../components/layouts/ScreenLayout";
+import { LeftIconTitleHeader } from "../../components/headers/LeftIconTitleHeader";
 
 const ReviewSentModal = ({ visible, pressFunc }) => {
   return (
@@ -88,73 +90,80 @@ export const RateArtisan = () => {
     setReviewSent(true);
   }
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={colors.acentGrey50} barStyle="dark-content" />
-      <View style={{ marginTop: 20, paddingBottom: 15 }}>
-        <BackIconTitle title={"Rate Artisan"} />
-      </View>
-      <Image
-        source={require("../../../assets/images/payment/3.png")}
-        style={{ height: 120, width: 120, alignSelf: "center", marginTop: 20 }}
-      />
-      <Text
-        style={[
-          generalStyles.poppins500_fs22,
-          { color: colors.black, alignSelf: "center", marginTop: 7 },
-        ]}
-      >
-        Nana Kojo
-      </Text>
-      <View style={{ marginTop: 50, alignItems: "center", gap: 15 }}>
+    <ScreenLayout>
+      <View style={{ flex: 1, paddingHorizontal: 20 }}>
+        <LeftIconTitleHeader title={"Rate Artisan"} />
+        <Image
+          source={require("../../../assets/images/payment/3.png")}
+          style={{
+            height: 120,
+            width: 120,
+            alignSelf: "center",
+            marginTop: 20,
+          }}
+        />
         <Text
           style={[
-            generalStyles.poppins400_fs14,
-            { color: colors.acentGrey400 },
+            generalStyles.poppins500_fs22,
+            { color: colors.black, alignSelf: "center", marginTop: 7 },
           ]}
         >
-          Rate this Artisan Service
+          Nana Kojo
         </Text>
-        <StarRating
-          rating={rating}
-          onChange={setRating}
-          starSize={25}
-          color={colors.primaryRed400}
-          emptyColor={colors.primaryRed400}
-        />
-      </View>
-      <View style={{ marginTop: 30 }}>
-        <TextInput
-          style={[generalStyles.poppins400_fs12, styles.textInput]}
-          placeholder="Additional comments"
-          placeholderTextColor={colors.acentGrey300}
-          multiline
-        />
-      </View>
-      <View style={{ marginTop: 40, gap: 15 }}>
-        <Btn100
-          text="Submit Review"
-          bg={colors.primaryRed400}
+        <View style={{ marginTop: 50, alignItems: "center", gap: 15 }}>
+          <Text
+            style={[
+              generalStyles.poppins400_fs14,
+              { color: colors.acentGrey400 },
+            ]}
+          >
+            Rate this Artisan Service
+          </Text>
+          <StarRating
+            rating={rating}
+            onChange={setRating}
+            starSize={25}
+            color={colors.primaryRed400}
+            emptyColor={colors.primaryRed400}
+          />
+        </View>
+        <View style={{ marginTop: 30 }}>
+          <TextInput
+            style={[generalStyles.poppins400_fs12, styles.textInput]}
+            placeholder="Additional comments"
+            placeholderTextColor={colors.acentGrey300}
+            multiline
+          />
+        </View>
+        <View style={{ marginTop: 40, gap: 15 }}>
+          <Btn100
+            text="Submit Review"
+            bg={colors.primaryRed400}
+            pressFunc={() => {
+              sendReview();
+            }}
+            disabled={rating == 0}
+          />
+          <Btn100
+            text="Not Now"
+            outlined
+            textCol={colors.primaryRed400}
+            pressFunc={() => navigation.navigate("BottomTabs")}
+          />
+        </View>
+        <ReviewSentModal
+          visible={reviewSent}
           pressFunc={() => {
-            sendReview();
+            setReviewSent(false);
+            navigation.navigate("BottomTabs");
           }}
-          disabled={rating == 0}
         />
-        <Btn100
-          text="Not Now"
-          outlined
-          textCol={colors.primaryRed400}
-          pressFunc={() => navigation.navigate("BottomTabs")}
+        <ReviewFailedModal
+          visible={reviewFailed}
+          setVisible={setReviewFailed}
         />
       </View>
-      <ReviewSentModal
-        visible={reviewSent}
-        pressFunc={() => {
-          setReviewSent(false);
-          navigation.navigate("BottomTabs");
-        }}
-      />
-      <ReviewFailedModal visible={reviewFailed} setVisible={setReviewFailed} />
-    </SafeAreaView>
+    </ScreenLayout>
   );
 };
 

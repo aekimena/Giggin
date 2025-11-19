@@ -12,6 +12,8 @@ import { BackBtn } from "../../components/auth/BackBtn";
 import LabelInputIcon from "../../components/LabelInputIcon";
 import { Btn100 } from "../../components/Btn100";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { ScreenLayout } from "../../components/layouts/ScreenLayout";
+import { Vspacer } from "../../components/Vspacer";
 
 export const NewPassword = () => {
   const navigation = useNavigation<any>();
@@ -47,66 +49,64 @@ export const NewPassword = () => {
     }, 1500);
   }
   return (
-    <SafeAreaView
-      style={[
-        generalStyles.flex1,
-        generalStyles.bgWhite,
-        { paddingHorizontal: 30 },
-      ]}
-    >
-      <StatusBar backgroundColor={"#fff"} barStyle="dark-content" />
-      <BackBtn />
-      <View style={{ marginTop: 30 }}>
-        <Text
-          style={[
-            generalStyles.poppins500_fs22,
-            { color: colors.secondaryBlue200, fontSize: 25 },
-          ]}
-        >
-          New Password
-        </Text>
-        <Text style={[generalStyles.poppins400_fs16, { color: "#000" }]}>
-          You can now create new password and confirm below
-        </Text>
+    <ScreenLayout>
+      <View style={{ flex: 1, paddingHorizontal: 20 }}>
+        <Vspacer />
+        <BackBtn />
+        <View style={{ marginTop: 30 }}>
+          <Text
+            style={[
+              generalStyles.poppins500_fs22,
+              { color: colors.secondaryBlue200, fontSize: 25 },
+            ]}
+          >
+            New Password
+          </Text>
+          <Text style={[generalStyles.poppins400_fs16, { color: "#000" }]}>
+            You can now create new password and confirm below
+          </Text>
+        </View>
+        <View style={{ marginTop: 30, gap: 25 }}>
+          <LabelInputIcon
+            placeholder="Enter Password"
+            defaultValue={password}
+            onChangeText={setPassword}
+            showRightIcon
+            secureTextEntry={hidePassword}
+            rightIcon={hidePassword ? "eye-outline" : "eye-off-outline"}
+            onRightIconPress={() => setHidePassword(!hidePassword)}
+            showErrorText={passwordErr}
+            errorText="Password must be at lease 8 characters long, must contain at least a number, an uppercase letter, and a special character"
+          />
+          <LabelInputIcon
+            placeholder="Confirm Password"
+            defaultValue={confirmPassword}
+            onChangeText={setConfirmPassword}
+            showRightIcon
+            secureTextEntry={hideConfirmPassword}
+            rightIcon={hideConfirmPassword ? "eye-outline" : "eye-off-outline"}
+            onRightIconPress={() =>
+              setHideConfirmPassword(!hideConfirmPassword)
+            }
+            disabled={password == ""}
+            showErrorText={confirmErr}
+            errorText="Passwords do not match!"
+          />
+        </View>
+        <View style={{ marginTop: 40 }}>
+          <Btn100
+            text={loading ? null : "Continue"}
+            bg={colors.primaryRed400}
+            pressFunc={createNewPassword}
+            rounded
+            disabled={loading}
+            leftComponent={
+              loading && <ActivityIndicator size={20} color={"#fff"} />
+            }
+          />
+        </View>
       </View>
-      <View style={{ marginTop: 30, gap: 25 }}>
-        <LabelInputIcon
-          placeholder="Enter Password"
-          defaultValue={password}
-          onChangeText={setPassword}
-          showRightIcon
-          secureTextEntry={hidePassword}
-          rightIcon={hidePassword ? "eye-outline" : "eye-off-outline"}
-          onRightIconPress={() => setHidePassword(!hidePassword)}
-          showErrorText={passwordErr}
-          errorText="Password must be at lease 8 characters long, must contain at least a number, an uppercase letter, and a special character"
-        />
-        <LabelInputIcon
-          placeholder="Confirm Password"
-          defaultValue={confirmPassword}
-          onChangeText={setConfirmPassword}
-          showRightIcon
-          secureTextEntry={hideConfirmPassword}
-          rightIcon={hideConfirmPassword ? "eye-outline" : "eye-off-outline"}
-          onRightIconPress={() => setHideConfirmPassword(!hideConfirmPassword)}
-          disabled={password == ""}
-          showErrorText={confirmErr}
-          errorText="Passwords do not match!"
-        />
-      </View>
-      <View style={{ marginTop: 40 }}>
-        <Btn100
-          text={loading ? null : "Continue"}
-          bg={colors.primaryRed400}
-          pressFunc={createNewPassword}
-          rounded
-          disabled={loading}
-          leftComponent={
-            loading && <ActivityIndicator size={20} color={"#fff"} />
-          }
-        />
-      </View>
-    </SafeAreaView>
+    </ScreenLayout>
   );
 };
 

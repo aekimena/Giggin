@@ -16,11 +16,13 @@ export const LogOutModal = ({ visible, setVisible }: Props) => {
   const dispatch = useDispatch();
   function logOut() {
     // clear all data here; redux, async storage, everything!!
+    // setVisible(false);
+    // dispatch(delUserData());
+    // dispatch(delArtisanConversation());
+    // dispatch(delClientConversation());
+    // dispatch(delRegisterData(null));
     setVisible(false);
-    dispatch(delUserData());
-    dispatch(delArtisanConversation());
-    dispatch(delClientConversation());
-    dispatch(delRegisterData(null));
+    dispatch({ type: "USER_LOGOUT" });
   }
 
   return (

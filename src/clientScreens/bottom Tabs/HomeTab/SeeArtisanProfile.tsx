@@ -1,14 +1,10 @@
 import {
   Dimensions,
   Image,
-  Modal,
   Pressable,
-  SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
-  TouchableWithoutFeedback,
   View,
 } from "react-native";
 import React, { useEffect, useState } from "react";
@@ -19,6 +15,10 @@ import { Btn100 } from "../../../components/Btn100";
 import { TopLeftMenuModal } from "../../../components/TopLeftMenuModal";
 import { RenderArtisanServices } from "./RenderArtisanServices";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { ScreenLayout } from "../../../components/layouts/ScreenLayout";
+import { Vspacer } from "../../../components/Vspacer";
+import { PreviousWorkItem } from "../../../components/artisanProfile/PreviousWorkItem";
+import { ArtisanOverviewBox } from "../../../components/artisanProfile/OverviewBox";
 const { height } = Dimensions.get("window");
 
 const SectionHeader = ({ left, right, onRightPress }) => (
@@ -50,22 +50,9 @@ export const SeeArtisanProfile = () => {
     setTopMenu(false);
   }
 
-  useEffect(() => {
-    // the best practice would be to fetch artisan's data here, but i'm just
-    // passing the data from the previous screen for now
-  }, []);
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: colors.acentGrey50,
-      }}
-    >
-      <StatusBar
-        backgroundColor={colors.acentGrey50}
-        barStyle="dark-content"
-        translucent={false}
-      />
+    <ScreenLayout>
+      <Vspacer size={20} />
       <View style={styles.headers}>
         <Pressable onPress={() => navigation.goBack()}>
           <IonIcons name="chevron-back" color={colors.black} size={20} />
@@ -85,86 +72,7 @@ export const SeeArtisanProfile = () => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ gap: 15, marginTop: 20 }}>
           <View style={{ paddingHorizontal: 15 }}>
-            <View style={styles.section}>
-              <View style={styles.mainInfo}>
-                <Image
-                  source={artisanData.image}
-                  style={{ height: 80, width: 80, borderRadius: 5 }}
-                />
-                <View style={{ flex: 1, gap: 3 }}>
-                  <View style={[styles.flexRow, { gap: 5 }]}>
-                    <Text
-                      style={[
-                        generalStyles.poppins500_fs16,
-                        { color: colors.secondaryBlue200 },
-                      ]}
-                    >
-                      {artisanData.name}
-                    </Text>
-                    {artisanData.verified && (
-                      <MaterialIcons
-                        name="verified"
-                        size={15}
-                        color={colors.secondaryBlue400}
-                      />
-                    )}
-                  </View>
-                  <Text
-                    style={[
-                      generalStyles.poppins400_fs14,
-                      { color: colors.acentGrey500 },
-                    ]}
-                  >
-                    {artisanData.profession}
-                  </Text>
-                  <View style={[styles.flexRow, { gap: 10 }]}>
-                    <View style={styles.flexRow}>
-                      <IonIcons
-                        name="star"
-                        color={colors.primaryRed400}
-                        size={10}
-                      />
-                      <Text
-                        style={[
-                          generalStyles.poppins400_fs14,
-                          { color: colors.acentGrey400 },
-                        ]}
-                      >
-                        {artisanData.rating.toFixed(1)}
-                      </Text>
-                    </View>
-                    <IonIcons
-                      name="ellipse"
-                      color={colors.secondaryBlue200}
-                      size={2}
-                    />
-                    <Text
-                      style={[
-                        generalStyles.poppins400_fs12,
-                        {
-                          color: colors.secondaryBlue100,
-                          textDecorationLine: "underline",
-                        },
-                      ]}
-                      onPress={() => navigation.navigate("RatingsAndReviews")}
-                    >
-                      {artisanData.reviews} reviews
-                    </Text>
-                  </View>
-                </View>
-              </View>
-              <View style={styles.seperator}></View>
-              <View style={styles.availableCont}>
-                <Text
-                  style={[
-                    generalStyles.poppins500_fs14,
-                    { color: colors.forestGreen600 },
-                  ]}
-                >
-                  Available
-                </Text>
-              </View>
-            </View>
+            <ArtisanOverviewBox data={artisanData} />
           </View>
           <View style={[styles.section, { paddingHorizontal: 0 }]}>
             <View style={{ paddingHorizontal: 15 }}>
@@ -186,12 +94,7 @@ export const SeeArtisanProfile = () => {
                 style={{ flexDirection: "row", gap: 10, paddingHorizontal: 15 }}
               >
                 {artisanData.gallery.map((img, index) => (
-                  <Pressable
-                    onPress={() =>
-                      navigation.navigate("PhotoInView", { artisanData, index })
-                    }
-                    key={index}
-                  >
+                  <Pressable onPress={() => {}} key={index}>
                     <Image
                       source={img}
                       style={{ height: 80, width: 80, borderRadius: 10 }}
@@ -219,72 +122,7 @@ export const SeeArtisanProfile = () => {
             <SectionHeader left={"Previous Works"} right={"See All"} />
             <View style={{ gap: 15, marginTop: 10 }}>
               {artisanData.previousWorks.map((work, index) => (
-                <View style={styles.section} key={index}>
-                  <View
-                    style={[
-                      styles.flexRow,
-                      {
-                        justifyContent: "space-between",
-                        alignItems: "flex-start",
-                      },
-                    ]}
-                  >
-                    <View
-                      style={[
-                        styles.flexRow,
-                        { alignItems: "flex-start", gap: 10 },
-                      ]}
-                    >
-                      <Image
-                        source={work.image}
-                        style={styles.previousWorkImage}
-                      />
-                      <View style={{ gap: 8 }}>
-                        <Text
-                          style={[
-                            generalStyles.poppins500_fs14,
-                            { color: colors.secondaryBlue200 },
-                          ]}
-                        >
-                          {work.service}
-                        </Text>
-                        <Text
-                          style={[
-                            generalStyles.poppins400_fs14,
-                            { color: colors.acentGrey400 },
-                          ]}
-                        >
-                          {work.clientPrdouct}
-                        </Text>
-                        <View style={styles.flexRow}>
-                          <IonIcons
-                            name="calendar-clear"
-                            color={colors.primaryRed400}
-                            size={15}
-                          />
-                          <Text
-                            style={[
-                              generalStyles.poppins400_fs14,
-                              { color: colors.acentGrey400 },
-                            ]}
-                          >
-                            {work.date}
-                          </Text>
-                        </View>
-                      </View>
-                    </View>
-                    <View>
-                      <Text
-                        style={[
-                          generalStyles.poppins500_fs14,
-                          { color: colors.acentGrey600 },
-                        ]}
-                      >
-                        {work.price}GH₵
-                      </Text>
-                    </View>
-                  </View>
-                </View>
+                <PreviousWorkItem work={work} key={index} />
               ))}
             </View>
           </View>
@@ -317,7 +155,7 @@ export const SeeArtisanProfile = () => {
         setVisible={setTopMenu}
         onSelect={menuPress}
       />
-    </SafeAreaView>
+    </ScreenLayout>
   );
 };
 
@@ -326,7 +164,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 20,
     paddingBottom: 10,
     paddingHorizontal: 15,
   },

@@ -10,6 +10,8 @@ import React, { useEffect } from "react";
 import { BackIconTitle } from "../../components/BackIconTitle";
 import { colors, generalStyles } from "../../utils";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { ScreenLayout } from "../../components/layouts/ScreenLayout";
+import { LeftIconTitleHeader } from "../../components/headers/LeftIconTitleHeader";
 
 export const ConfirmCashPayment2 = () => {
   const navigation = useNavigation<any>();
@@ -21,54 +23,53 @@ export const ConfirmCashPayment2 = () => {
     }, 3000);
   }, []);
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={colors.acentGrey50} barStyle="dark-content" />
-      <View style={{ marginTop: 20, paddingBottom: 15 }}>
-        <BackIconTitle title={"Cash"} />
-      </View>
-      <View style={styles.progressCont}>
-        <View style={{ alignItems: "center", gap: 4 }}>
-          <View style={styles.outerCircle}>
-            <View style={styles.innerCircle}></View>
+    <ScreenLayout>
+      <View style={{ flex: 1, paddingHorizontal: 15 }}>
+        <LeftIconTitleHeader title={"Cash"} />
+        <View style={styles.progressCont}>
+          <View style={{ alignItems: "center", gap: 4 }}>
+            <View style={styles.outerCircle}>
+              <View style={styles.innerCircle}></View>
+            </View>
+            <Image
+              source={require("../../../assets/images/payment/2.png")}
+              style={{ height: 170, resizeMode: "contain" }}
+            />
+            <View style={styles.outerCircle}>
+              <View style={styles.innerCircle}></View>
+            </View>
           </View>
-          <Image
-            source={require("../../../assets/images/payment/2.png")}
-            style={{ height: 170, resizeMode: "contain" }}
-          />
-          <View style={styles.outerCircle}>
-            <View style={styles.innerCircle}></View>
+          <View style={{ gap: 120, flex: 1 }}>
+            <View style={[generalStyles.allCenter, styles.box]}>
+              <Text
+                style={[generalStyles.poppins400_fs14, { color: colors.black }]}
+              >
+                Confirm you have made a cash payment of 100,000
+              </Text>
+            </View>
+            <View style={[generalStyles.allCenter, styles.box]}>
+              <Text
+                style={[generalStyles.poppins400_fs14, { color: colors.black }]}
+              >
+                Confirm you have made a cash payment of 100,000
+              </Text>
+            </View>
           </View>
         </View>
-        <View style={{ gap: 120, flex: 1 }}>
-          <View style={[generalStyles.allCenter, styles.box]}>
+        <View style={styles.infoBoxCont}>
+          <View style={styles.infoBox}>
             <Text
-              style={[generalStyles.poppins400_fs14, { color: colors.black }]}
+              style={[
+                generalStyles.poppins400_fs14,
+                { color: colors.forestGreen600 },
+              ]}
             >
-              Confirm you have made a cash payment of 100,000
+              Professional has confirmed cash receipt
             </Text>
           </View>
-          <View style={[generalStyles.allCenter, styles.box]}>
-            <Text
-              style={[generalStyles.poppins400_fs14, { color: colors.black }]}
-            >
-              Confirm you have made a cash payment of 100,000
-            </Text>
-          </View>
         </View>
       </View>
-      <View style={styles.infoBoxCont}>
-        <View style={styles.infoBox}>
-          <Text
-            style={[
-              generalStyles.poppins400_fs14,
-              { color: colors.forestGreen600 },
-            ]}
-          >
-            Professional has confirmed cash receipt
-          </Text>
-        </View>
-      </View>
-    </SafeAreaView>
+    </ScreenLayout>
   );
 };
 
