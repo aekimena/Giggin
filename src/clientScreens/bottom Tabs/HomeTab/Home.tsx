@@ -31,6 +31,7 @@ import { Vspacer } from "../../../components/Vspacer";
 import { screenNames } from "../../../navigation/routes";
 import { HomeSearchInput } from "../../../components/home/SearchInput";
 import { HomeHeader } from "../../../components/home/HomeHeader";
+import DisclaimerModal from "../../../modals/DisclaimerModal";
 
 interface HomeProps {
   noOfSlides: number;
@@ -41,9 +42,14 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 export const Home = () => {
   const navigation = useNavigation<any>();
+  const [isModalVisible, setModalVisible] = useState(false);
   const userData: UserDataProps = useSelector(
     (state: any) => state.UserData.userData
   );
+
+  useEffect(() => {
+    setModalVisible(true);
+  }, []);
 
   return (
     <ScreenLayout backgroundColor={colors.acentGrey50}>
@@ -127,6 +133,10 @@ export const Home = () => {
       {/* <View style={{ position: "absolute", top: 0, right: 0 }}>
         <Image source={require("../../../../assets/images/home/4.png")} />
       </View> */}
+      <DisclaimerModal
+        visible={isModalVisible}
+        onClose={() => setModalVisible(false)}
+      />
     </ScreenLayout>
   );
 };
