@@ -24,7 +24,7 @@ export const OverviewPagesHeader = ({
   const navigation = useNavigation<any>();
   return (
     <View
-      style={[generalStyles.flexRowBtw, { marginTop: 20, paddingBottom: 15 }]}
+      style={[generalStyles.flexRowBtw, { marginTop: 40, paddingBottom: 15 }]}
     >
       <View style={[generalStyles.flexRow, { gap: 20 }]}>
         <TouchableOpacity

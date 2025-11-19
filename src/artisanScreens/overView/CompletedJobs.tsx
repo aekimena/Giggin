@@ -13,6 +13,7 @@ import { OverviewPagesHeader } from "../../components/OverviewPagesHeader";
 import { colors, generalStyles } from "../../utils";
 import IonIcons from "@expo/vector-icons/Ionicons";
 import { ArtisanJobs } from "../../utils/dummyData";
+import { ScreenLayout } from "../../components/layouts/ScreenLayout";
 
 interface RenderProps {
   item: JobsProp;
@@ -107,24 +108,29 @@ export const CompletedJobs = () => {
     }, 500);
   }, []);
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={colors.acentGrey50} barStyle="dark-content" />
-      <OverviewPagesHeader title="Completed Orders" />
-      {dataLoading && (
-        <View style={[generalStyles.allCenter, { flex: 1 }]}>
-          <ActivityIndicator size={"large"} color={colors.primaryRed400} />
-        </View>
-      )}
-      {!dataLoading && (
-        <FlatList
-          data={data}
-          keyExtractor={(item) => item.id}
-          renderItem={(item) => <RenderItems {...item} />}
-          contentContainerStyle={{ gap: 15, paddingTop: 20, paddingBottom: 20 }}
-          showsVerticalScrollIndicator={false}
-        />
-      )}
-    </SafeAreaView>
+    <ScreenLayout>
+      <View style={{ flex: 1, paddingHorizontal: 20 }}>
+        <OverviewPagesHeader title="Completed Orders" />
+        {dataLoading && (
+          <View style={[generalStyles.allCenter, { flex: 1 }]}>
+            <ActivityIndicator size={"large"} color={colors.primaryRed400} />
+          </View>
+        )}
+        {!dataLoading && (
+          <FlatList
+            data={data}
+            keyExtractor={(item) => item.id}
+            renderItem={(item) => <RenderItems {...item} />}
+            contentContainerStyle={{
+              gap: 15,
+              paddingTop: 20,
+              paddingBottom: 20,
+            }}
+            showsVerticalScrollIndicator={false}
+          />
+        )}
+      </View>
+    </ScreenLayout>
   );
 };
 

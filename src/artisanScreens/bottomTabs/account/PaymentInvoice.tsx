@@ -11,6 +11,7 @@ import { OverviewPagesHeader } from "../../../components/OverviewPagesHeader";
 import { colors, generalStyles } from "../../../utils";
 import { useRoute } from "@react-navigation/native";
 import { Btn100 } from "../../../components/Btn100";
+import { ButtonContainer } from "../../../components/ButtonContainer";
 
 const RenderFlexBtw = ({ left, right }) => (
   <View style={[generalStyles.flexRowBtw]}>
@@ -151,14 +152,16 @@ export const PaymentInvoice = () => {
           </View>
         </ScrollView>
       </View>
-      <View style={styles.btnCont}>
-        <Btn100
-          text="Download Invoice"
-          bg={colors.primaryRed400}
-          pressFunc={null}
-          rounded
-        />
-      </View>
+      <ButtonContainer>
+        <View style={styles.btnCont}>
+          <Btn100
+            text="Download Invoice"
+            bg={colors.primaryRed400}
+            pressFunc={null}
+            rounded
+          />
+        </View>
+      </ButtonContainer>
     </SafeAreaView>
   );
 };

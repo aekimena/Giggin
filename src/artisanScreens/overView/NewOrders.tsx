@@ -16,6 +16,7 @@ import { BackBtn } from "../../components/auth/BackBtn";
 import { OverviewPagesHeader } from "../../components/OverviewPagesHeader";
 import { ArtisanNewOrders } from "../../utils/dummyData";
 import { useNavigation } from "@react-navigation/native";
+import { ScreenLayout } from "../../components/layouts/ScreenLayout";
 
 interface RenderProps {
   item: ArtisanNewOrdersProp;
@@ -80,25 +81,30 @@ export const NewOrders = () => {
     }, 500);
   }, []);
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={colors.acentGrey50} barStyle="dark-content" />
-      <OverviewPagesHeader title="New Orders" />
+    <ScreenLayout>
+      <View style={{ paddingHorizontal: 20, flex: 1 }}>
+        <OverviewPagesHeader title="New Orders" />
 
-      {dataLoading && (
-        <View style={[generalStyles.allCenter, { flex: 1 }]}>
-          <ActivityIndicator size={"large"} color={colors.primaryRed400} />
-        </View>
-      )}
-      {!dataLoading && (
-        <FlatList
-          data={data}
-          keyExtractor={(item) => item.id}
-          renderItem={(item) => <RenderItems {...item} />}
-          contentContainerStyle={{ gap: 15, paddingTop: 20, paddingBottom: 50 }}
-          showsVerticalScrollIndicator={false}
-        />
-      )}
-    </SafeAreaView>
+        {dataLoading && (
+          <View style={[generalStyles.allCenter, { flex: 1 }]}>
+            <ActivityIndicator size={"large"} color={colors.primaryRed400} />
+          </View>
+        )}
+        {!dataLoading && (
+          <FlatList
+            data={data}
+            keyExtractor={(item) => item.id}
+            renderItem={(item) => <RenderItems {...item} />}
+            contentContainerStyle={{
+              gap: 15,
+              paddingTop: 20,
+              paddingBottom: 50,
+            }}
+            showsVerticalScrollIndicator={false}
+          />
+        )}
+      </View>
+    </ScreenLayout>
   );
 };
 

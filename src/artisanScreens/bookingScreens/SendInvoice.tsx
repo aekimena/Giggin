@@ -14,6 +14,8 @@ import React, { useState } from "react";
 import { colors, generalStyles } from "../../utils";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Btn100 } from "../../components/Btn100";
+import { ScreenLayout } from "../../components/layouts/ScreenLayout";
+import { Vspacer } from "../../components/Vspacer";
 
 const RenderFlexBtw = ({ left, right }) => (
   <View style={[generalStyles.flexRowBtw]}>
@@ -111,103 +113,45 @@ export const SendInvoice = () => {
   const passedData: ArtisanBookingsProps = route.params.data;
   const [visible, setVisible] = useState(false);
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={colors.acentGrey50} barStyle="dark-content" />
-      <ScrollView
-        contentContainerStyle={{ paddingBottom: 20 }}
-        showsVerticalScrollIndicator={false}
-      >
-        <View
-          style={[
-            styles.header,
-            passedData.paymentMade && {
-              backgroundColor: "rgba(0, 193, 19, 0.16)",
-            },
-          ]}
+    <ScreenLayout>
+      <View style={{ flex: 1, paddingHorizontal: 20 }}>
+        <ScrollView
+          contentContainerStyle={{ paddingBottom: 20 }}
+          showsVerticalScrollIndicator={false}
         >
-          <Text
+          <Vspacer />
+          <View
             style={[
-              generalStyles.poppins400_fs14,
-              { color: colors.primaryRed400 },
-              passedData.paymentMade && { color: colors.forestGreen600 },
+              styles.header,
+              passedData.paymentMade && {
+                backgroundColor: "rgba(0, 193, 19, 0.16)",
+              },
             ]}
           >
-            {passedData.paymentMade ? "Paid" : "Pending"}
-          </Text>
-        </View>
-        <View style={styles.clientInfoCont}>
-          <View style={[generalStyles.flexRow, { gap: 10, flex: 1 }]}>
-            <Image
-              source={passedData.image}
-              style={{ height: 70, width: 90, borderRadius: 10 }}
-            />
-            <View style={{ gap: 3, flex: 1 }}>
-              <Text
-                style={[generalStyles.poppins500_fs12, { color: colors.black }]}
-              >
-                Ordered By
-              </Text>
-              <Text
-                style={[generalStyles.poppins500_fs14, { color: colors.black }]}
-              >
-                {passedData.firstName} {passedData.lastName}
-              </Text>
-            </View>
+            <Text
+              style={[
+                generalStyles.poppins400_fs14,
+                { color: colors.primaryRed400 },
+                passedData.paymentMade && { color: colors.forestGreen600 },
+              ]}
+            >
+              {passedData.paymentMade ? "Paid" : "Pending"}
+            </Text>
           </View>
-          <Text
-            style={[
-              generalStyles.poppins500_fs14,
-              { color: colors.acentGrey500 },
-            ]}
-          >
-            Due 12/14/2024
-          </Text>
-        </View>
-        <View style={styles.detailsCont}>
-          <Text
-            style={[generalStyles.poppins500_fs14, { color: colors.black }]}
-          >
-            Invoice Details
-          </Text>
-          <View style={styles.seperator}></View>
-          <View style={{ gap: 15 }}>
-            <RenderFlexBtw
-              left={"Service Offered"}
-              right={passedData.service}
-            />
-            <RenderFlexBtw left={"Service Status"} right={"Completed"} />
-          </View>
-          <Text
-            style={[
-              generalStyles.poppins500_fs14,
-              { color: colors.black, marginTop: 20 },
-            ]}
-          >
-            Payment Details
-          </Text>
-          <View style={styles.seperator}></View>
-          <View style={{ gap: 15 }}>
-            <RenderFlexBtw
-              left={"Final Fee Charged"}
-              right={"GHC" + passedData.finalFee}
-            />
-            <View style={[generalStyles.flexRowBtw]}>
-              <Text
-                style={[
-                  generalStyles.poppins500_fs14,
-                  { color: colors.acentGrey500 },
-                ]}
-              >
-                Platform Charges
-              </Text>
-              <View style={[generalStyles.flexRow, { gap: 3 }]}>
+          <View style={styles.clientInfoCont}>
+            <View style={[generalStyles.flexRow, { gap: 10, flex: 1 }]}>
+              <Image
+                source={passedData.image}
+                style={{ height: 70, width: 90, borderRadius: 10 }}
+              />
+              <View style={{ gap: 3, flex: 1 }}>
                 <Text
                   style={[
                     generalStyles.poppins500_fs12,
-                    { color: colors.acentGrey400, fontSize: 10 },
+                    { color: colors.black },
                   ]}
                 >
-                  (2%)
+                  Ordered By
                 </Text>
                 <Text
                   style={[
@@ -215,51 +159,117 @@ export const SendInvoice = () => {
                     { color: colors.black },
                   ]}
                 >
-                  GHC{parseInt(passedData.finalFee) * 0.02}
+                  {passedData.firstName} {passedData.lastName}
                 </Text>
               </View>
             </View>
-            <View style={{ marginTop: 40 }}>
+            <Text
+              style={[
+                generalStyles.poppins500_fs14,
+                { color: colors.acentGrey500 },
+              ]}
+            >
+              Due 12/14/2024
+            </Text>
+          </View>
+          <View style={styles.detailsCont}>
+            <Text
+              style={[generalStyles.poppins500_fs14, { color: colors.black }]}
+            >
+              Invoice Details
+            </Text>
+            <View style={styles.seperator}></View>
+            <View style={{ gap: 15 }}>
               <RenderFlexBtw
-                left={"Client Payable Fee"}
+                left={"Service Offered"}
+                right={passedData.service}
+              />
+              <RenderFlexBtw left={"Service Status"} right={"Completed"} />
+            </View>
+            <Text
+              style={[
+                generalStyles.poppins500_fs14,
+                { color: colors.black, marginTop: 20 },
+              ]}
+            >
+              Payment Details
+            </Text>
+            <View style={styles.seperator}></View>
+            <View style={{ gap: 15 }}>
+              <RenderFlexBtw
+                left={"Final Fee Charged"}
                 right={"GHC" + passedData.finalFee}
               />
+              <View style={[generalStyles.flexRowBtw]}>
+                <Text
+                  style={[
+                    generalStyles.poppins500_fs14,
+                    { color: colors.acentGrey500 },
+                  ]}
+                >
+                  Platform Charges
+                </Text>
+                <View style={[generalStyles.flexRow, { gap: 3 }]}>
+                  <Text
+                    style={[
+                      generalStyles.poppins500_fs12,
+                      { color: colors.acentGrey400, fontSize: 10 },
+                    ]}
+                  >
+                    (2%)
+                  </Text>
+                  <Text
+                    style={[
+                      generalStyles.poppins500_fs14,
+                      { color: colors.black },
+                    ]}
+                  >
+                    GHC{parseInt(passedData.finalFee) * 0.02}
+                  </Text>
+                </View>
+              </View>
+              <View style={{ marginTop: 40 }}>
+                <RenderFlexBtw
+                  left={"Client Payable Fee"}
+                  right={"GHC" + passedData.finalFee}
+                />
+              </View>
             </View>
           </View>
-        </View>
-        <Text
-          style={[
-            generalStyles.poppins500_fs12,
-            { color: colors.black, textAlign: "center", marginTop: 20 },
-          ]}
-        >
-          Make payment to Artisan within 24 - 48hrs above to prevent blockage of
-          account and some legal actions
-        </Text>
-        {/* </View> */}
-        <View style={{ marginTop: 40, gap: 20 }}>
-          <Btn100
-            text="Send Invoice"
-            bg={colors.primaryRed400}
-            pressFunc={null}
-            rounded
-          />
-          {passedData.paymentMethod == "offline" && (
+          <Text
+            style={[
+              generalStyles.poppins500_fs12,
+              { color: colors.black, textAlign: "center", marginTop: 20 },
+            ]}
+          >
+            Make payment to Artisan within 24 - 48hrs above to prevent blockage
+            of account and some legal actions
+          </Text>
+          {/* </View> */}
+          <View style={{ marginTop: 40, gap: 20 }}>
             <Btn100
-              text="Verify Offline Payment"
-              bg={
-                passedData.paymentMade == true
-                  ? colors.primaryRed400
-                  : colors.acentGrey400
-              }
-              pressFunc={() => setVisible(true)}
+              text="Send Invoice"
+              bg={colors.primaryRed400}
+              pressFunc={null}
               rounded
             />
-          )}
-        </View>
-      </ScrollView>
-      <ModalView visible={visible} setVisible={setVisible} />
-    </SafeAreaView>
+            {passedData.paymentMethod == "offline" && (
+              <Btn100
+                text="Verify Offline Payment"
+                bg={
+                  passedData.paymentMade == true
+                    ? colors.primaryRed400
+                    : colors.acentGrey400
+                }
+                pressFunc={() => setVisible(true)}
+                rounded
+              />
+            )}
+          </View>
+        </ScrollView>
+        <ModalView visible={visible} setVisible={setVisible} />
+      </View>
+    </ScreenLayout>
   );
 };
 
@@ -270,7 +280,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.acentGrey50,
   },
   header: {
-    marginTop: 20,
     height: 45,
     borderRadius: 10,
     backgroundColor: colors.primaryRed50,

@@ -6,13 +6,13 @@ import { Completed } from "./topTabs/Completed";
 import { Cancelled } from "./topTabs/Cancelled";
 import { DashboardHeader } from "../../../components/DashboardHeader";
 import { colors, generalStyles } from "../../../utils";
+import { ScreenLayout } from "../../../components/layouts/ScreenLayout";
 
 export const Bookings = () => {
   const Tab = createMaterialTopTabNavigator();
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={colors.acentGrey50} barStyle="dark-content" />
-      <View style={{ paddingHorizontal: 25 }}>
+    <ScreenLayout>
+      <View style={{ paddingHorizontal: 20, marginTop: 40 }}>
         <DashboardHeader title={"Bookings"} />
       </View>
 
@@ -22,13 +22,14 @@ export const Bookings = () => {
           tabBarStyle: styles.tabBar,
           tabBarIndicatorStyle: { backgroundColor: colors.primaryRed400 },
           tabBarPressColor: "rgba(0,0,0,0.07)",
+          swipeEnabled: false,
         }}
       >
-        <Tab.Screen name="Pending" component={Pending} />
-        <Tab.Screen name="Completed" component={Completed} />
-        <Tab.Screen name="Cancelled" component={Cancelled} />
+        <Tab.Screen name="Pending" component={Pending} key={"pending"} />
+        <Tab.Screen name="Completed" component={Completed} key={"completed"} />
+        <Tab.Screen name="Cancelled" component={Cancelled} key={"cancelled"} />
       </Tab.Navigator>
-    </SafeAreaView>
+    </ScreenLayout>
   );
 };
 

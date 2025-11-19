@@ -1,5 +1,6 @@
 import {
   Image,
+  KeyboardAvoidingView,
   Modal,
   SafeAreaView,
   ScrollView,
@@ -17,6 +18,7 @@ import LabelInputIcon from "../../../components/LabelInputIcon";
 import PhoneInput from "react-native-phone-number-input";
 import { Btn100 } from "../../../components/Btn100";
 import { useNavigation } from "@react-navigation/native";
+import { ButtonContainer } from "../../../components/ButtonContainer";
 
 const ModalView = ({ visible }) => {
   return (
@@ -89,66 +91,78 @@ export const HelpCenter2 = () => {
         backgroundColor: colors.acentGrey50,
       }}
     >
-      <OverviewPagesHeader title="Helper Center" hideRightComp />
+      <OverviewPagesHeader title="Help Center" hideRightComp />
       <View style={{ flex: 1 }}>
-        <ScrollView
-          contentContainerStyle={{ marginTop: 20, paddingBottom: 50, gap: 20 }}
-          showsVerticalScrollIndicator={false}
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior="padding"
+          keyboardVerticalOffset={50}
         >
-          <LabelInputIcon
-            label="Name"
-            defaultValue={name}
-            placeholder={"Enter Name"}
-            onChangeText={setName}
-          />
-          <View style={{ gap: 5 }}>
-            <Text
-              style={[generalStyles.poppins400_fs14, { color: colors.black }]}
-            >
-              Phone Number
-            </Text>
-            <PhoneInput
-              ref={phoneInput}
-              defaultValue={""}
-              defaultCode="GH"
-              layout="first"
-              onChangeText={(text) => {
-                setPhone(text);
-              }}
-              containerStyle={styles.phoneCont}
-              textContainerStyle={styles.phoneTxtCont}
+          <ScrollView
+            contentContainerStyle={{
+              marginTop: 20,
+              paddingBottom: 50,
+              gap: 20,
+            }}
+            showsVerticalScrollIndicator={false}
+          >
+            <LabelInputIcon
+              label="Name"
+              defaultValue={name}
+              placeholder={"Enter Name"}
+              onChangeText={setName}
             />
-          </View>
-          <LabelInputIcon
-            label="Email"
-            placeholder="Enter Email"
-            onChangeText={setEmail}
-            defaultValue={email}
-          />
-          <View style={{ gap: 5 }}>
-            <Text
-              style={[generalStyles.poppins400_fs14, { color: colors.black }]}
-            >
-              Message
-            </Text>
-            <TextInput
-              multiline
-              style={styles.textinput}
-              placeholder="Enter Message"
-              placeholderTextColor={"#999"}
-              onChangeText={setMsg}
+            <View style={{ gap: 5 }}>
+              <Text
+                style={[generalStyles.poppins400_fs14, { color: colors.black }]}
+              >
+                Phone Number
+              </Text>
+              <PhoneInput
+                ref={phoneInput}
+                defaultValue={""}
+                defaultCode="GH"
+                layout="first"
+                onChangeText={(text) => {
+                  setPhone(text);
+                }}
+                containerStyle={styles.phoneCont}
+                textContainerStyle={styles.phoneTxtCont}
+              />
+            </View>
+            <LabelInputIcon
+              label="Email"
+              placeholder="Enter Email"
+              onChangeText={setEmail}
+              defaultValue={email}
             />
-          </View>
-        </ScrollView>
+            <View style={{ gap: 5 }}>
+              <Text
+                style={[generalStyles.poppins400_fs14, { color: colors.black }]}
+              >
+                Message
+              </Text>
+              <TextInput
+                multiline
+                style={styles.textinput}
+                placeholder="Enter Message"
+                placeholderTextColor={"#999"}
+                onChangeText={setMsg}
+              />
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </View>
-      <View style={styles.btnCont}>
-        <Btn100
-          text="Send"
-          bg={colors.primaryRed400}
-          pressFunc={sendMail}
-          rounded
-        />
-      </View>
+      <ButtonContainer>
+        <View style={styles.btnCont}>
+          <Btn100
+            text="Send"
+            bg={colors.primaryRed400}
+            pressFunc={sendMail}
+            rounded
+          />
+        </View>
+      </ButtonContainer>
       <ModalView visible={visible} />
     </SafeAreaView>
   );

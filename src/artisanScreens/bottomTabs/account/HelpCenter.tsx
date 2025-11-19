@@ -12,6 +12,7 @@ import { colors, generalStyles } from "../../../utils";
 import { Btn100 } from "../../../components/Btn100";
 import IonIcons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
+import { ButtonContainer } from "../../../components/ButtonContainer";
 
 export const HelpCenter = () => {
   const navigation = useNavigation<any>();
@@ -128,22 +129,24 @@ export const HelpCenter = () => {
           </View>
         </ScrollView>
       </View>
-      <View style={styles.btnCont}>
-        <Text
-          style={[
-            generalStyles.poppins400_fs14,
-            { color: colors.black, textAlign: "center" },
-          ]}
-        >
-          Still stuck? Help is a mail away
-        </Text>
-        <Btn100
-          text="Send a message"
-          bg={colors.primaryRed400}
-          pressFunc={() => navigation.navigate("HelpCenter2")}
-          rounded
-        />
-      </View>
+      <ButtonContainer>
+        <View style={styles.btnCont}>
+          <Text
+            style={[
+              generalStyles.poppins400_fs14,
+              { color: colors.black, textAlign: "center" },
+            ]}
+          >
+            Still stuck? Help is a mail away
+          </Text>
+          <Btn100
+            text="Send a message"
+            bg={colors.primaryRed400}
+            pressFunc={() => navigation.navigate("HelpCenter2")}
+            rounded
+          />
+        </View>
+      </ButtonContainer>
     </SafeAreaView>
   );
 };

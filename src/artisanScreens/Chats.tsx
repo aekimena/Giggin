@@ -3,6 +3,7 @@ import {
   Dimensions,
   FlatList,
   Image,
+  KeyboardAvoidingView,
   Linking,
   Pressable,
   SafeAreaView,
@@ -25,6 +26,9 @@ import {
   sendNewMessage,
 } from "../redux/features/artisan/Messages";
 import { ArtisanMessages } from "../utils/dummyData";
+import { ScreenLayout } from "../components/layouts/ScreenLayout";
+import { Vspacer } from "../components/Vspacer";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface RenderProps {
   item: ArtisanMessageObjProps;
@@ -140,6 +144,9 @@ export const Chats = () => {
   const [input, setInput] = useState("");
   const scrollRef = useRef<any>();
   const [fakeId, setFakeId] = useState(null); // this is just a fake id for conversation
+
+  const insets = useSafeAreaInsets();
+
   useEffect(() => {
     if (!dataLoading) {
       scrollRef.current.scrollToEnd({ animated: false });
@@ -240,14 +247,9 @@ export const Chats = () => {
   };
   ///////
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: colors.acentGrey50,
-      }}
-    >
-      <StatusBar backgroundColor={colors.acentGrey50} barStyle="dark-content" />
-      <View style={[generalStyles.flexRowBtw, styles.headers]}>
+    <ScreenLayout>
+      <Vspacer />
+      <View style={[generalStyles.flexRow, styles.headers]}>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           activeOpacity={0.8}
@@ -288,8 +290,12 @@ export const Chats = () => {
         </View>
       )}
       {!dataLoading && (
-        <>
-          <View style={{ flex: 1 }}>
+        <View style={{ flex: 1 }}>
+          <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior={"height"}
+            keyboardVerticalOffset={40}
+          >
             <FlatList
               ref={scrollRef}
               data={chats}
@@ -305,36 +311,41 @@ export const Chats = () => {
                 }, 100)
               }
             />
-          </View>
-          <View style={styles.textInputCont}>
-            <Pressable onPress={pickImage}>
-              <IonIcons name="camera" size={25} color={colors.acentGrey600} />
-            </Pressable>
-            <TextInput
-              placeholder="Enter Message"
-              style={[generalStyles.poppins400_fs14, styles.textInput]}
-              placeholderTextColor={colors.acentGrey500}
-              multiline
-              defaultValue={input}
-              onChangeText={setInput}
-            />
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={input == "" ? null : sendMessage}
-              style={styles.sendBtn}
+
+            <View
+              style={{
+                ...styles.textInputCont,
+                paddingBottom: insets.bottom + 5,
+              }}
             >
-              <IonIcons name="send-outline" color={"#fff"} size={18} />
-            </TouchableOpacity>
-          </View>
-        </>
+              <Pressable onPress={pickImage}>
+                <IonIcons name="camera" size={25} color={colors.acentGrey600} />
+              </Pressable>
+              <TextInput
+                placeholder="Enter Message"
+                style={[generalStyles.poppins400_fs14, styles.textInput]}
+                placeholderTextColor={colors.acentGrey500}
+                multiline
+                defaultValue={input}
+                onChangeText={setInput}
+              />
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={input == "" ? null : sendMessage}
+                style={styles.sendBtn}
+              >
+                <IonIcons name="send-outline" color={"#fff"} size={18} />
+              </TouchableOpacity>
+            </View>
+          </KeyboardAvoidingView>
+        </View>
       )}
-    </SafeAreaView>
+    </ScreenLayout>
   );
 };
 const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
   headers: {
-    marginTop: 20,
     paddingBottom: 20,
     borderBottomWidth: 0.5,
     borderColor: colors.acentGrey400,
@@ -369,7 +380,7 @@ const styles = StyleSheet.create({
   },
   timeString: { color: colors.acentGrey500, marginTop: 3, fontSize: 10 },
   textInput: {
-    minHeight: 40,
+    minHeight: 50,
     maxHeight: 150,
     flex: 1,
     backgroundColor: colors.acentGrey200,
@@ -382,6 +393,7 @@ const styles = StyleSheet.create({
     height: "auto",
     width: width,
     padding: 15,
+
     backgroundColor: colors.whiteBg,
     borderTopWidth: 0.8,
     borderColor: colors.acentGrey200,

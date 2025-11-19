@@ -21,6 +21,8 @@ import {
   selectArtisanConvos,
 } from "../../redux/features/artisan/Messages";
 import { useNavigation } from "@react-navigation/native";
+import { ScreenLayout } from "../../components/layouts/ScreenLayout";
+import { Vspacer } from "../../components/Vspacer";
 
 interface RenderProps {
   item: ArtisanMessagesProps;
@@ -130,63 +132,63 @@ export const Messages = () => {
     }, 500);
   }, []);
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: colors.acentGrey50,
-        paddingHorizontal: 25,
-      }}
-    >
-      <StatusBar backgroundColor={colors.acentGrey50} barStyle="dark-content" />
-      <DashboardHeader title="Messages" />
-      {dataLoading && (
-        <View style={[generalStyles.allCenter, { flex: 1 }]}>
-          <ActivityIndicator size={"large"} color={colors.primaryRed400} />
-        </View>
-      )}
-
-      {!dataLoading && (
-        <>
-          <View style={{ paddingBottom: 15 }}>
-            <View style={styles.textinputCont}>
-              <IonIcons name="search" color={colors.primaryRed400} size={20} />
-              <TextInput
-                style={styles.textinput}
-                placeholder="Search for recent messages"
-                placeholderTextColor="rgba(104, 104, 104, 1)"
-                onChangeText={setInputTxt}
-              />
-            </View>
+    <ScreenLayout>
+      <View style={{ flex: 1, paddingHorizontal: 20 }}>
+        <Vspacer />
+        <DashboardHeader title="Messages" />
+        {dataLoading && (
+          <View style={[generalStyles.allCenter, { flex: 1 }]}>
+            <ActivityIndicator size={"large"} color={colors.primaryRed400} />
           </View>
+        )}
 
-          {data.length == 0 && (
-            <View style={[generalStyles.allCenter, generalStyles.flex1]}>
-              <Text
-                style={[
-                  generalStyles.poppins500_fs22,
-                  { color: colors.acentGrey400 },
-                ]}
-              >
-                No Messages
-              </Text>
+        {!dataLoading && (
+          <>
+            <View style={{ paddingBottom: 15 }}>
+              <View style={styles.textinputCont}>
+                <IonIcons
+                  name="search"
+                  color={colors.primaryRed400}
+                  size={20}
+                />
+                <TextInput
+                  style={styles.textinput}
+                  placeholder="Search for recent messages"
+                  placeholderTextColor="rgba(104, 104, 104, 1)"
+                  onChangeText={setInputTxt}
+                />
+              </View>
             </View>
-          )}
-          {data.length !== 0 && (
-            <FlatList
-              data={inputTxt == "" ? data : filteredData}
-              showsVerticalScrollIndicator={false}
-              keyExtractor={(item) => item.id}
-              renderItem={(item: any) => <RenderMessages {...item} />}
-              contentContainerStyle={{
-                gap: 15,
-                paddingTop: 20,
-                paddingBottom: 50,
-              }}
-            />
-          )}
-        </>
-      )}
-    </SafeAreaView>
+
+            {data.length == 0 && (
+              <View style={[generalStyles.allCenter, generalStyles.flex1]}>
+                <Text
+                  style={[
+                    generalStyles.poppins500_fs22,
+                    { color: colors.acentGrey400 },
+                  ]}
+                >
+                  No Messages
+                </Text>
+              </View>
+            )}
+            {data.length !== 0 && (
+              <FlatList
+                data={inputTxt == "" ? data : filteredData}
+                showsVerticalScrollIndicator={false}
+                keyExtractor={(item) => item.id}
+                renderItem={(item: any) => <RenderMessages {...item} />}
+                contentContainerStyle={{
+                  gap: 15,
+                  paddingTop: 20,
+                  paddingBottom: 50,
+                }}
+              />
+            )}
+          </>
+        )}
+      </View>
+    </ScreenLayout>
   );
 };
 
@@ -201,7 +203,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.whiteBg,
     paddingHorizontal: 15,
     shadowColor: "#000",
-    elevation: 5,
+    elevation: 2,
     gap: 15,
   },
   textinput: {

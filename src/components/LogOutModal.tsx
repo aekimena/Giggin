@@ -1,10 +1,7 @@
 import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { colors, generalStyles } from "../utils";
-import { delUserData } from "../redux/features/UserData";
-import { delRegisterData } from "../redux/features/RegistrationData";
-import { delArtisanConversation } from "../redux/features/artisan/Messages";
-import { delClientConversation } from "../redux/features/client/Messages";
+
 import { useDispatch } from "react-redux";
 
 type Props = {
@@ -15,12 +12,6 @@ type Props = {
 export const LogOutModal = ({ visible, setVisible }: Props) => {
   const dispatch = useDispatch();
   function logOut() {
-    // clear all data here; redux, async storage, everything!!
-    // setVisible(false);
-    // dispatch(delUserData());
-    // dispatch(delArtisanConversation());
-    // dispatch(delClientConversation());
-    // dispatch(delRegisterData(null));
     setVisible(false);
     dispatch({ type: "USER_LOGOUT" });
   }

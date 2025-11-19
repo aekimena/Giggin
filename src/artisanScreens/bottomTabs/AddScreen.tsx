@@ -16,6 +16,8 @@ import { Btn100 } from "../../components/Btn100";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { ScreenLayout } from "../../components/layouts/ScreenLayout";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const { width } = Dimensions.get("window");
 export const AddScreen = () => {
@@ -23,6 +25,8 @@ export const AddScreen = () => {
   const [image, setImage] = useState(null);
   const [showAddImageModal, setAddImageModal] = useState(false);
   const [selected, setSelected] = useState([]);
+
+  const insets = useSafeAreaInsets();
   const options = [
     { id: "1", option: "24 x 7 Services" },
     { id: "2", option: "Eco-Friendly" },
@@ -75,168 +79,176 @@ export const AddScreen = () => {
     }
   };
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        paddingHorizontal: 20,
-        backgroundColor: colors.acentGrey50,
-      }}
-    >
-      <OverviewPagesHeader title="Create New Service" />
-      <View style={{ flex: 1 }}>
-        <ScrollView
-          contentContainerStyle={{ paddingBottom: 50 }}
-          showsVerticalScrollIndicator={false}
-        >
-          {/*  */}
-          <View style={{ paddingHorizontal: 15, marginTop: 20 }}>
-            {image == null && (
-              <>
-                <Text
-                  style={[
-                    generalStyles.poppins500_fs16,
-                    { color: colors.black, textAlign: "center" },
-                  ]}
-                >
-                  Upload a photo of Your New Service
-                </Text>
-
-                <Pressable
-                  style={[
-                    image == null && generalStyles.allCenter,
-                    styles.selectFileBox,
-                  ]}
-                  onPress={pickImage}
-                >
-                  <View
-                    style={{ alignItems: "center", gap: 3, marginVertical: 30 }}
+    <ScreenLayout>
+      <View style={{ flex: 1, paddingHorizontal: 20 }}>
+        <OverviewPagesHeader title="Create New Service" />
+        <View style={{ flex: 1 }}>
+          <ScrollView
+            contentContainerStyle={{ paddingBottom: 50 }}
+            showsVerticalScrollIndicator={false}
+          >
+            {/*  */}
+            <View style={{ paddingHorizontal: 15, marginTop: 20 }}>
+              {image == null && (
+                <>
+                  <Text
+                    style={[
+                      generalStyles.poppins500_fs16,
+                      { color: colors.black, textAlign: "center" },
+                    ]}
                   >
-                    <Image
-                      source={require("../../../assets/images/payment/1.png")}
+                    Upload a photo of Your New Service
+                  </Text>
+
+                  <Pressable
+                    style={[
+                      image == null && generalStyles.allCenter,
+                      styles.selectFileBox,
+                    ]}
+                    onPress={pickImage}
+                  >
+                    <View
+                      style={{
+                        alignItems: "center",
+                        gap: 3,
+                        marginVertical: 30,
+                      }}
+                    >
+                      <Image
+                        source={require("../../../assets/images/payment/1.png")}
+                      />
+                      <Text
+                        style={[
+                          generalStyles.poppins400_fs14,
+                          { color: colors.acentGrey800 },
+                        ]}
+                      >
+                        Select File
+                      </Text>
+                    </View>
+                  </Pressable>
+
+                  <View
+                    style={[generalStyles.flexRow, { marginTop: 20, gap: 3 }]}
+                  >
+                    <View style={styles.seperator}></View>
+                    <Text
+                      style={[
+                        generalStyles.poppins400_fs16,
+                        { color: colors.black },
+                      ]}
+                    >
+                      or
+                    </Text>
+                    <View style={styles.seperator}></View>
+                  </View>
+                  <Pressable style={styles.openCameraCont} onPress={openCamera}>
+                    <View
+                      style={[
+                        generalStyles.flexRow,
+                        { justifyContent: "center", gap: 5 },
+                      ]}
+                    >
+                      <IonIcons
+                        name="camera"
+                        color={colors.primaryRed400}
+                        size={20}
+                      />
+                      <Text
+                        style={[
+                          generalStyles.poppins500_fs14,
+                          { color: colors.primaryRed400 },
+                        ]}
+                      >
+                        Open camera and take photo
+                      </Text>
+                    </View>
+                  </Pressable>
+                </>
+              )}
+            </View>
+            {image !== null && (
+              <View>
+                <Image
+                  source={{ uri: image }}
+                  style={{ height: 250, width: "100%", borderRadius: 10 }}
+                />
+                <Pressable style={styles.trash} onPress={() => setImage(null)}>
+                  <Ionicons
+                    name="trash"
+                    size={18}
+                    color={colors.primaryRed400}
+                  />
+                </Pressable>
+              </View>
+            )}
+            {/*  */}
+            <View style={{ marginTop: 20, paddingLeft: 15 }}>
+              <Text
+                style={[generalStyles.poppins400_fs16, { color: colors.black }]}
+              >
+                Select your preferred options here
+              </Text>
+              <View
+                style={[
+                  generalStyles.flexRow,
+                  {
+                    flexWrap: "wrap",
+                    marginTop: 15,
+                    gap: 20,
+                  },
+                ]}
+              >
+                {options.map((item, index) => (
+                  <Pressable
+                    key={item.id}
+                    style={[
+                      generalStyles.flexRow,
+                      {
+                        gap: 3,
+                        width: width * 0.5 - 40,
+                      },
+                    ]}
+                    onPress={() => optionPress(item)}
+                  >
+                    <IonIcons
+                      name={
+                        optionSelected(item) ? "checkbox" : "square-outline"
+                      }
+                      size={25}
+                      color={colors.primaryRed400}
                     />
                     <Text
                       style={[
                         generalStyles.poppins400_fs14,
-                        { color: colors.acentGrey800 },
+                        { color: colors.primaryRed400, flex: 1 },
                       ]}
                     >
-                      Select File
+                      {item.option}
                     </Text>
-                  </View>
-                </Pressable>
-
-                <View
-                  style={[generalStyles.flexRow, { marginTop: 20, gap: 3 }]}
-                >
-                  <View style={styles.seperator}></View>
-                  <Text
-                    style={[
-                      generalStyles.poppins400_fs16,
-                      { color: colors.black },
-                    ]}
-                  >
-                    or
-                  </Text>
-                  <View style={styles.seperator}></View>
-                </View>
-                <Pressable style={styles.openCameraCont} onPress={openCamera}>
-                  <View
-                    style={[
-                      generalStyles.flexRow,
-                      { justifyContent: "center", gap: 5 },
-                    ]}
-                  >
-                    <IonIcons
-                      name="camera"
-                      color={colors.primaryRed400}
-                      size={20}
-                    />
-                    <Text
-                      style={[
-                        generalStyles.poppins500_fs14,
-                        { color: colors.primaryRed400 },
-                      ]}
-                    >
-                      Open camera and take photo
-                    </Text>
-                  </View>
-                </Pressable>
-              </>
-            )}
-          </View>
-          {image !== null && (
-            <View>
-              <Image
-                source={{ uri: image }}
-                style={{ height: 250, width: "100%", borderRadius: 10 }}
-              />
-              <Pressable style={styles.trash} onPress={() => setImage(null)}>
-                <Ionicons name="trash" size={18} color={colors.primaryRed400} />
-              </Pressable>
+                  </Pressable>
+                ))}
+              </View>
             </View>
-          )}
-          {/*  */}
-          <View style={{ marginTop: 20, paddingLeft: 15 }}>
-            <Text
-              style={[generalStyles.poppins400_fs16, { color: colors.black }]}
-            >
-              Select your preferred options here
-            </Text>
-            <View
-              style={[
-                generalStyles.flexRow,
-                {
-                  flexWrap: "wrap",
-                  marginTop: 15,
-                  gap: 20,
-                },
-              ]}
-            >
-              {options.map((item, index) => (
-                <Pressable
-                  key={item.id}
-                  style={[
-                    generalStyles.flexRow,
-                    {
-                      gap: 3,
-                      width: width * 0.5 - 40,
-                    },
-                  ]}
-                  onPress={() => optionPress(item)}
-                >
-                  <IonIcons
-                    name={optionSelected(item) ? "checkbox" : "square-outline"}
-                    size={25}
-                    color={colors.primaryRed400}
-                  />
-                  <Text
-                    style={[
-                      generalStyles.poppins400_fs14,
-                      { color: colors.primaryRed400, flex: 1 },
-                    ]}
-                  >
-                    {item.option}
-                  </Text>
-                </Pressable>
-              ))}
-            </View>
-          </View>
-        </ScrollView>
+          </ScrollView>
+        </View>
+        <View style={{ ...styles.btnCont, marginBottom: insets.bottom + 5 }}>
+          <Btn100
+            text="Next"
+            bg={
+              selected.length == 0 ? colors.acentGrey300 : colors.primaryRed400
+            }
+            pressFunc={() =>
+              navigation.navigate("AddScreen2", {
+                data: { options: selected, image: image },
+              })
+            }
+            rounded
+            disabled={selected.length == 0}
+          />
+        </View>
       </View>
-      <View style={styles.btnCont}>
-        <Btn100
-          text="Next"
-          bg={selected.length == 0 ? colors.acentGrey300 : colors.primaryRed400}
-          pressFunc={() =>
-            navigation.navigate("AddScreen2", {
-              data: { options: selected, image: image },
-            })
-          }
-          rounded
-          disabled={selected.length == 0}
-        />
-      </View>
-    </SafeAreaView>
+    </ScreenLayout>
   );
 };
 

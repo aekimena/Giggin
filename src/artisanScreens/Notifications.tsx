@@ -17,6 +17,7 @@ import { OverviewPagesHeader } from "../components/OverviewPagesHeader";
 import { ArtisanJobs, ArtisanNewOrders } from "../utils/dummyData";
 import { useNavigation } from "@react-navigation/native";
 import IonIcons from "@expo/vector-icons/Ionicons";
+import { ScreenLayout } from "../components/layouts/ScreenLayout";
 
 interface RenderProps {
   item: AllNotificationProps;
@@ -208,24 +209,29 @@ export const Notifications = () => {
     }, 500);
   }, []);
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={colors.acentGrey50} barStyle="dark-content" />
-      <OverviewPagesHeader title="General Notifications" />
-      {dataLoading && (
-        <View style={[generalStyles.allCenter, { flex: 1 }]}>
-          <ActivityIndicator size={"large"} color={colors.primaryRed400} />
-        </View>
-      )}
-      {!dataLoading && (
-        <FlatList
-          data={data}
-          keyExtractor={(item) => item.id}
-          renderItem={(item) => <RenderItems {...item} />}
-          contentContainerStyle={{ gap: 15, paddingTop: 20, paddingBottom: 50 }}
-          showsVerticalScrollIndicator={false}
-        />
-      )}
-    </SafeAreaView>
+    <ScreenLayout>
+      <View style={{ paddingHorizontal: 20, flex: 1 }}>
+        <OverviewPagesHeader title="General Notifications" />
+        {dataLoading && (
+          <View style={[generalStyles.allCenter, { flex: 1 }]}>
+            <ActivityIndicator size={"large"} color={colors.primaryRed400} />
+          </View>
+        )}
+        {!dataLoading && (
+          <FlatList
+            data={data}
+            keyExtractor={(item) => item.id}
+            renderItem={(item) => <RenderItems {...item} />}
+            contentContainerStyle={{
+              gap: 15,
+              paddingTop: 20,
+              paddingBottom: 50,
+            }}
+            showsVerticalScrollIndicator={false}
+          />
+        )}
+      </View>
+    </ScreenLayout>
   );
 };
 

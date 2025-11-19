@@ -11,6 +11,8 @@ import { OverviewPagesHeader } from "../../../../components/OverviewPagesHeader"
 import { colors, generalStyles } from "../../../../utils";
 import { useRoute } from "@react-navigation/native";
 import { Btn100 } from "../../../../components/Btn100";
+import { ButtonContainer } from "../../../../components/ButtonContainer";
+import { Vspacer } from "../../../../components/Vspacer";
 
 export const ServiceInView = () => {
   const route = useRoute<any>();
@@ -146,6 +148,7 @@ export const ServiceInView = () => {
             />
           )}
         </View>
+        <Vspacer size={50} />
       </ScrollView>
     </SafeAreaView>
   );

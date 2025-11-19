@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   headers: {
-    marginTop: 20,
+    // marginTop: 20,
     paddingBottom: 15,
   },
   avatar: {

@@ -1,9 +1,7 @@
 import {
   Image,
   Pressable,
-  SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -16,12 +14,11 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome from "@expo/vector-icons/FontAwesome6";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  selectUserData,
-  updateUserData,
-} from "../../../redux/features/UserData";
+import { selectUserData } from "../../../redux/features/UserData";
 import { LogOutModal } from "../../../components/LogOutModal";
 import { AddImageModal } from "../../../components/AddImageModal";
+import { ScreenLayout } from "../../../components/layouts/ScreenLayout";
+import { Vspacer } from "../../../components/Vspacer";
 
 interface FlewRowProps {
   Icon: any;
@@ -81,16 +78,19 @@ export const Account = () => {
 
   const changeAvatar = (img) => {
     setImage(img);
-    dispatch(updateUserData({ ...userData, image: img }));
+    dispatch({
+      type: "UPDATE_USER_DATA",
+      payload: { ...userData, image: img },
+    });
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={colors.acentGrey50} barStyle="dark-content" />
+    <ScreenLayout>
+      <Vspacer />
       <View
         style={[
           generalStyles.flexRowBtw,
-          { marginTop: 20, paddingBottom: 15, paddingHorizontal: 25 },
+          { paddingBottom: 15, paddingHorizontal: 25 },
         ]}
       >
         <Text
@@ -286,7 +286,7 @@ export const Account = () => {
         onSelect={changeAvatar}
         aspect={[3, 3]}
       />
-    </SafeAreaView>
+    </ScreenLayout>
   );
 };
 

@@ -16,6 +16,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { Btn100 } from "../../../components/Btn100";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import * as Clipboard from "expo-clipboard";
+import { ButtonContainer } from "../../../components/ButtonContainer";
 
 const RenderFlexBtw = ({ left, right }) => (
   <View style={[generalStyles.flexRowBtw]}>
@@ -252,14 +253,16 @@ export const DebtInvoice = () => {
           </Text>
         </ScrollView>
       </View>
-      <View style={styles.btnCont}>
-        <Btn100
-          text="I've sent the money"
-          bg={colors.primaryRed400}
-          pressFunc={verify}
-          rounded
-        />
-      </View>
+      <ButtonContainer>
+        <View style={styles.btnCont}>
+          <Btn100
+            text="I've sent the money"
+            bg={colors.primaryRed400}
+            pressFunc={verify}
+            rounded
+          />
+        </View>
+      </ButtonContainer>
       <ModalView visible={visible} status={status} />
     </SafeAreaView>
   );

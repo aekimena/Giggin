@@ -150,6 +150,7 @@ export const MyServices = () => {
               tabBarStyle: styles.tabBar,
               tabBarIndicatorStyle: { backgroundColor: colors.primaryRed400 },
               tabBarPressColor: "rgba(0,0,0,0.07)",
+              swipeEnabled: false,
             }}
           >
             <Tab.Screen

@@ -17,6 +17,7 @@ import { artisanGallery } from "../../../utils/dummyData";
 import { Btn100 } from "../../../components/Btn100";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
+import { ButtonContainer } from "../../../components/ButtonContainer";
 
 const ModalView = ({ visible, setVisible, deleteFunc }) => {
   const navigation = useNavigation<any>();
@@ -184,14 +185,16 @@ export const Gallery = () => {
           contentContainerStyle={{ paddingBottom: 50, paddingTop: 15, gap: 15 }}
         />
       )}
-      <View style={styles.btnCont}>
-        <Btn100
-          text="Add Work"
-          bg={colors.primaryRed400}
-          pressFunc={() => navigation.navigate("AddToGallery")}
-          rounded
-        />
-      </View>
+      <ButtonContainer>
+        <View style={styles.btnCont}>
+          <Btn100
+            text="Add Work"
+            bg={colors.primaryRed400}
+            pressFunc={() => navigation.navigate("AddToGallery")}
+            rounded
+          />
+        </View>
+      </ButtonContainer>
       <ModalView
         visible={visible}
         setVisible={setVisible}

@@ -13,12 +13,19 @@ import BookingScreens from "../../artisanScreens/bottomTabs/bookings";
 import AccountScreens from "../../artisanScreens/bottomTabs/account";
 import { Messages } from "../../artisanScreens/bottomTabs/Messages";
 import { useState } from "react";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function TabBar({ state, descriptors, navigation }) {
   const { width } = useWindowDimensions();
   const [accountFocused, setAccountFocused] = useState(false);
+  const insets = useSafeAreaInsets();
   return (
-    <View style={[styles.tabsCont, { width: width }]}>
+    <View
+      style={[
+        styles.tabsCont,
+        { width: width, paddingBottom: 5 + insets.bottom },
+      ]}
+    >
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label = route.name;
@@ -134,7 +141,8 @@ const styles = StyleSheet.create({
   tabsCont: {
     flexDirection: "row",
     alignItems: "center",
-    height: 60,
+    // height: 60,
+    paddingTop: 15,
     borderTopWidth: 0.5,
     borderColor: colors.acentGrey200,
     backgroundColor: colors.whiteBg,
